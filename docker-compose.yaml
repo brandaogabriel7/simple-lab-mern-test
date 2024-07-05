@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  db:
+    image: mongodb/mongodb-community-server:7.0.11-ubuntu2204
+    container_name: db
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - db-network
+
+  server:
+    build:
+      context: ./server
+    container_name: server
+    entrypoint: dockerize -wait tcp://db:27017 -timeout 20s docker-entrypoint.sh
+    command: npm start
+    networks:
+      - db-network
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+
+networks:
+  db-network:
+    driver: bridge

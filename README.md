@@ -6,7 +6,7 @@ Esse projeto é parte de um processo seletivo pra SimpleLab. O projeto consiste 
 
 O servidor é uma API desenvolvida com Node.js e Express. Essa API se comunica com o banco de dados para executar as operações com os usuários. Eu também adicionei o Jest para trabalhar com testes automatizados.
 
-### Domínio
+## Modelar domínio
 
 O domínio é simples e gira em torno do usuário. Então, meu primeiro passo foi criar uma entidade para implementar as regras de negócio do usuário.
 
@@ -19,3 +19,9 @@ O domínio é simples e gira em torno do usuário. Então, meu primeiro passo fo
 5. Impedir cadastro de usuários com data de nascimento no futuro.
 
 As outras regras de negócio tem mais relação com o banco de dados e o frontend, o que não é o foco nessa etapa. Com base nessas regras de negócio, eu criei a entidade `User` e o objeto de valor `BirthDate` (responsável por validar a data de nascimento).
+
+## Subir banco de dados e back-end com docker-compose
+
+Depois de implementar as regras de negócio acima, meu foco foi criar um banco de dados de desenvolvimento pra rodar e conectar com o back-end. Pra facilitar todo o processo de subir o back-end, o front-end e o banco de dados, eu decidi usar `docker-compose`. Não é a forma como subiria a aplicação em produção mas é uma boa alternativa para desenvolvimento local.
+
+> Eu usei o [Dockerize](https://github.com/jwilder/dockerize) pra garantir que o back-end só vai subir quando o db estiver disponível e evitar problemas na inicialização do container.
