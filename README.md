@@ -25,3 +25,13 @@ As outras regras de negócio tem mais relação com o banco de dados e o fronten
 Depois de implementar as regras de negócio acima, meu foco foi criar um banco de dados de desenvolvimento pra rodar e conectar com o back-end. Pra facilitar todo o processo de subir o back-end, o front-end e o banco de dados, eu decidi usar `docker-compose`. Não é a forma como subiria a aplicação em produção mas é uma boa alternativa para desenvolvimento local.
 
 > Eu usei o [Dockerize](https://github.com/jwilder/dockerize) pra garantir que o back-end só vai subir quando o db estiver disponível e evitar problemas na inicialização do container.
+
+## Implementar conexão do banco de dados com o back-end
+
+> Para me ajudar a testar os repositórios e simular o `mongodb` eu usei o [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server).
+
+Os passos dessa etapa foram:
+
+1. Mockar um mongodb pra testes do repositório.
+2. Implementar o model `user` com o `mongoose`.
+3. Implementar o repositório usando o model criado.
