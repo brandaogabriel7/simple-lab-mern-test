@@ -25,4 +25,8 @@ export default class BirthDate {
       throw new Error("Birth date can't be in the future");
     }
   }
+
+  get value() {
+    return this.#value;
+  }
 }

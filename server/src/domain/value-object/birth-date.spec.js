@@ -1,6 +1,16 @@
 import BirthDate from "./birth-date";
 
 describe("birth date tests", () => {
+  it("should create a birth date when passed a valid date string", () => {
+    const birthDate = new BirthDate("1993-01-02");
+    expect(birthDate.value).toStrictEqual(new Date("1993-01-02"));
+  });
+
+  it("should create a birth date when passed a valid date object", () => {
+    const birthDate = new BirthDate(new Date("1993-01-02"));
+    expect(birthDate.value).toStrictEqual(new Date("1993-01-02"));
+  });
+
   it("should throw an error when birth date is empty", () => {
     expect(() => {
       new BirthDate();
