@@ -2,15 +2,13 @@ import UserModel from "./user.model.js";
 import User from "../../../domain/entity/user.js";
 import BirthDate from "../../../domain/value-object/birth-date.js";
 
-const userDto = (user) => ({
-  email: user.email,
-  name: user.name,
-  birthDate: user.birthDate.value,
-});
-
 export default class UserRepository {
   async create(user) {
-    const newUser = new UserModel(userDto(user));
+    const newUser = new UserModel({
+      email: user.email,
+      name: user.name,
+      birthDate: user.birthDate.value,
+    });
     await newUser.save();
   }
 
@@ -19,7 +17,14 @@ export default class UserRepository {
     if (!existingUser) {
       throw new Error("User not found");
     }
-    await UserModel.updateOne({ email: user.email }, userDto(user));
+    await UserModel.updateOne(
+      { email: user.email },
+      {
+        email: user.email,
+        name: user.name,
+        birthDate: user.birthDate.value,
+      }
+    );
   }
 
   async delete(email) {
