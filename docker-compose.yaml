@@ -15,7 +15,12 @@ services:
       context: ./server
     container_name: server
     entrypoint: dockerize -wait tcp://db:27017 -timeout 20s docker-entrypoint.sh
+    environment:
+      - MONGO_CONNECTION_STRING=mongodb://db:27017/
+      - PORT=3000
     command: npm start
+    ports:
+      - "3000:3000"
     networks:
       - db-network
     volumes:
