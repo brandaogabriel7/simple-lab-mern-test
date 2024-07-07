@@ -19,7 +19,6 @@ export default class UserService {
       throw new Error("User with this email already exists");
     }
     await this.#userRepository.create(user);
-    return user;
   }
 
   async updateUser(user) {

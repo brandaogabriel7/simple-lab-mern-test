@@ -45,13 +45,9 @@ describe("UserService tests", () => {
 
     userRepository.find.mockResolvedValue(null);
 
-    const createdUser = await userService.createUser(user);
+    await userService.createUser(user);
 
     expect(userRepository.create).toHaveBeenCalledWith(user);
-    expect(createdUser).not.toBeNull();
-    expect(createdUser.email).toBe(user.email);
-    expect(createdUser.name).toBe(user.name);
-    expect(createdUser.birthDate).toStrictEqual(user.birthDate);
   });
 
   it("should get all users", async () => {
