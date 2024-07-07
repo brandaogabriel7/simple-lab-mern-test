@@ -4,6 +4,9 @@ describe("birth date tests", () => {
   it("should create a birth date when passed a valid date string", () => {
     const birthDate = new BirthDate("1993-01-02");
     expect(birthDate.value).toStrictEqual(new Date("1993-01-02"));
+
+    const birthDate2 = new BirthDate("1993-01-02T00:00:00.000Z");
+    expect(birthDate2.value).toStrictEqual(new Date("1993-01-02"));
   });
 
   it("should create a birth date when passed a valid date object", () => {

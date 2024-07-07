@@ -12,7 +12,7 @@ export default class BirthDate {
       throw new Error("Birth date is required");
     }
     if (typeof this.#value === "string") {
-      const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+      const datePattern = /^\d{4}-\d{2}-\d{2}/;
       if (!datePattern.test(this.#value)) {
         throw new Error("Invalid birth date");
       }
