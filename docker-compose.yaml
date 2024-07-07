@@ -18,7 +18,7 @@ services:
     environment:
       - MONGO_CONNECTION_STRING=mongodb://db:27017/
       - PORT=3000
-    command: npm start
+    command: npm run dev
     ports:
       - "3000:3000"
     networks:
