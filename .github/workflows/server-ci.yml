@@ -2,20 +2,22 @@ name: Run tests for the server
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js 21.6
-      uses: actions/setup-node@v3
-      with:
-        node-version: 21.6
-        cache: 'npm'
-    - run: npm install
-    - run: npm test
+      - uses: actions/checkout@v4
+      - name: Use Node.js 21.6
+        uses: actions/setup-node@v3
+        with:
+          node-version: 21.6
+          cache: "npm"
+          cache-dependency-path: server/package-lock.json
+      - run: npm install
+        working-directory: server
+      - run: npm test
+        working-directory: server
