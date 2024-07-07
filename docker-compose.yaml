@@ -10,10 +10,10 @@ services:
     networks:
       - db-network
 
-  server:
+  backend:
     build:
-      context: ./server
-    container_name: server
+      context: ./simple-lab-mern-test-back
+    container_name: backend
     entrypoint: dockerize -wait tcp://db:27017 -timeout 20s docker-entrypoint.sh
     environment:
       - MONGO_CONNECTION_STRING=mongodb://db:27017/
@@ -24,7 +24,7 @@ services:
     networks:
       - db-network
     volumes:
-      - ./server:/usr/src/app
+      - ./simple-lab-mern-test-back:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - db

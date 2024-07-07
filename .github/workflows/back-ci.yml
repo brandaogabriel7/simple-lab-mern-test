@@ -1,4 +1,4 @@
-name: Run tests for the server
+name: Run tests for the back-end
 
 on:
   push:
@@ -16,8 +16,8 @@ jobs:
         with:
           node-version: 21.6
           cache: "npm"
-          cache-dependency-path: server/package-lock.json
+          cache-dependency-path: simple-lab-mern-test-back/package-lock.json
       - run: npm install
-        working-directory: server
+        working-directory: simple-lab-mern-test-back
       - run: npm test
-        working-directory: server
+        working-directory: simple-lab-mern-test-back

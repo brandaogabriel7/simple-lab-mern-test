@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "server",
+  "name": "simple-lab-mern-test-back",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
