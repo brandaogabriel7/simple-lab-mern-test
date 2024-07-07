@@ -28,6 +28,9 @@ export default class UserRepository {
 
   async find(email) {
     const user = await UserModel.findOne({ email });
+    if (!user) {
+      return null;
+    }
     return new User(user.email, user.name, new BirthDate(user.birthDate));
   }
 

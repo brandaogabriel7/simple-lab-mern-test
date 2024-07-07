@@ -35,3 +35,9 @@ Os passos dessa etapa foram:
 1. Mockar um mongodb pra testes do repositório.
 2. Implementar o model `user` com o `mongoose`.
 3. Implementar o repositório usando o model criado.
+
+## Garantir que o email não seja repetido
+
+Depois de implementar o repositório eu percebi que ficou faltando garantir uma regra de negócio no domínio: **o mesmo email não pode ser usado por mais de um usuário**
+
+Então eu retornei para o domínio pra criar o `UserService`. Esse serviço que fica responsável por usar o repositório para fazer as operações no banco de dados e garantir a unicidade do email.

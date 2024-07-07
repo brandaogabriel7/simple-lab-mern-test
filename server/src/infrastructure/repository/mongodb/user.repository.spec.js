@@ -81,6 +81,14 @@ describe("UserRepository tests", () => {
     expect(createdUser.birthDate.value).toStrictEqual(user.birthDate.value);
   });
 
+  it("should return null when trying to find user that does not exist", async () => {
+    const email = "doesnotexist@test.com";
+
+    const user = await userRepository.find(email);
+
+    expect(user).toBeNull();
+  });
+
   it("should find all users", async () => {
     await db.populateDatabase(10);
 
