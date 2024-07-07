@@ -14,13 +14,12 @@ services:
     build:
       context: ./simple-lab-mern-test-back
     container_name: backend
-    entrypoint: dockerize -wait tcp://db:27017 -timeout 20s docker-entrypoint.sh
     environment:
       - MONGO_CONNECTION_STRING=mongodb://db:27017/
-      - PORT=3000
+      - PORT=8080
     command: npm run dev
     ports:
-      - "3000:3000"
+      - "8080:8080"
     networks:
       - db-network
     volumes:
@@ -28,6 +27,16 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - db
+
+  frontend:
+    build:
+      context: ./simple-lab-mern-test-front
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./simple-lab-mern-test-front:/usr/src/app
+      - /usr/src/app/node_modules
 
 networks:
   db-network:

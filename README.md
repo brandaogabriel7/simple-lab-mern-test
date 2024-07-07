@@ -61,3 +61,15 @@ POST /api/users -> cadastrar novo usuário
 PUT /api/users -> atualizar usuário existente
 DELETE /api/users -> deletar usuário
 ```
+
+## Configurar CI da API
+
+Nesse ponto do processo, eu resolvi criar um pipeline pra rodar os testes e o build da api sempre que eu subisse um commit novo no Github.
+
+## Criar projeto do front-end
+
+Fiz as configurações iniciais pra iniciar o desenvolvimento do front-end.
+
+- Criar projeto inicial com `create-react-app`
+- Configurar pipeline de build
+- Adicionar front ao docker compose
