@@ -1,6 +1,6 @@
-import UserModel from "./user.model";
-import User from "../../../domain/entity/user";
-import BirthDate from "../../../domain/value-object/birth-date";
+import UserModel from "./user.model.js";
+import User from "../../../domain/entity/user.js";
+import BirthDate from "../../../domain/value-object/birth-date.js";
 
 const userDto = (user) => ({
   email: user.email,
