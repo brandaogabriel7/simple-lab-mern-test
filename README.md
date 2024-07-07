@@ -41,3 +41,23 @@ Os passos dessa etapa foram:
 Depois de implementar o repositório eu percebi que ficou faltando garantir uma regra de negócio no domínio: **o mesmo email não pode ser usado por mais de um usuário**
 
 Então eu retornei para o domínio pra criar o `UserService`. Esse serviço que fica responsável por usar o repositório para fazer as operações no banco de dados e garantir a unicidade do email.
+
+## Implementar api com express
+
+Com o domínio e a comunicação com o banco de dados implementados. Só ficou faltando criar a api e disponibilizar as rotas para finalizar o back-end.
+
+Nessa etapa eu decidi usar algumas bibliotecas a mais pra facilitar o desenvolvimento e a escrita de testes para a API.
+
+- Usei o `supertest` pra facilitar nos testes automatizados da API
+- Alterei o `docker-compose.yaml` pra rodar a api com o `nodemon`
+  - É um ambiente de desenvolvimento, então eu queria que sempre que eu salvasse alterações aos arquivos a api atualizaria automaticamente
+
+Por fim, eu implementei as rotas para cada uma das operações possíveis.
+
+```
+GET /api/users -> listar todos os usuários
+GET /api/users/:email -> recuperar usuário por email
+POST /api/users -> cadastrar novo usuário
+PUT /api/users -> atualizar usuário existente
+DELETE /api/users -> deletar usuário
+```
