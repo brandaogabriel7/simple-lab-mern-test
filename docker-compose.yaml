@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   db:
@@ -17,14 +17,11 @@ services:
     environment:
       - MONGO_CONNECTION_STRING=mongodb://db:27017/
       - PORT=8080
-    command: npm run dev
+    command: npm start
     ports:
       - "8080:8080"
     networks:
       - db-network
-    volumes:
-      - ./simple-lab-mern-test-back:/usr/src/app
-      - /usr/src/app/node_modules
     depends_on:
       - db
 
@@ -34,9 +31,6 @@ services:
     container_name: frontend
     ports:
       - "3000:3000"
-    volumes:
-      - ./simple-lab-mern-test-front:/usr/src/app
-      - /usr/src/app/node_modules
 
 networks:
   db-network:
