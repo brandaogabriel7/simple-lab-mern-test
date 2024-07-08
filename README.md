@@ -73,3 +73,4 @@ Fiz as configurações iniciais pra iniciar o desenvolvimento do front-end.
 - Criar projeto inicial com `create-react-app`
 - Configurar pipeline de build
 - Adicionar front ao docker compose
+- Configurar `react-bootstrap`
