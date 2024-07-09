@@ -15,7 +15,7 @@ services:
       context: ./simple-lab-mern-test-back
     container_name: backend
     environment:
-      - MONGO_CONNECTION_STRING=mongodb://db:27017/
+      - MONGO_CONNECTION_STRING=mongodb://db:27017/simple-lab-mern-test
       - PORT=8080
     command: npm start
     ports:
