@@ -3,6 +3,7 @@ import App from "./App";
 
 test("renders hello", () => {
   render(<App />);
-  const hello = screen.getByRole("heading", { name: /hello/i });
-  expect(hello).toBeInTheDocument();
+  const hello = screen.getByRole("heading", {
+    name: /cadastrar novo usuário/i,
+  });
 });
