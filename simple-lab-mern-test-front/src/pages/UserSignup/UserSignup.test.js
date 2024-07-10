@@ -33,10 +33,10 @@ describe("User sign up page tests", () => {
     const birthDateInput = screen.getByLabelText(/data de nascimento/i);
     const submitButton = screen.getByRole("button", { name: /cadastrar/i });
 
-    await userEvent.type(emailInput, email);
-    await userEvent.type(nameInput, name);
-    await userEvent.type(birthDateInput, birthDate);
-    await userEvent.click(submitButton);
+    await user.type(emailInput, email);
+    await user.type(nameInput, name);
+    await user.type(birthDateInput, birthDate);
+    await user.click(submitButton);
 
     expect(createUser).toHaveBeenCalledWith({ email, name, birthDate });
 
@@ -45,18 +45,19 @@ describe("User sign up page tests", () => {
     expect(birthDateInput).toHaveValue("");
 
     expect(
-      screen.getByText(/usuário cadastrado com sucesso/i)
+      await screen.findByText(/usuário cadastrado com sucesso/i)
     ).toBeInTheDocument();
   });
 
   it("should show error message when user creation fails", async () => {
+    const user = userEvent.setup();
     const createUser = jest.fn();
     createUser.mockRejectedValueOnce(new Error("Couldn't create user"));
     render(<UserSignup createUser={createUser} />);
 
     const submitButton = screen.getByRole("button", { name: /cadastrar/i });
 
-    await userEvent.click(submitButton);
+    await user.click(submitButton);
 
     expect(
       screen.getByText(/não foi possível cadastrar o usuário/i)

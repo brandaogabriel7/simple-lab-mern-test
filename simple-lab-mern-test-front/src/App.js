@@ -1,4 +1,5 @@
 import UserSignup from "./pages/UserSignup/UserSignup";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -14,7 +15,16 @@ function App() {
       throw new Error("Failed to create user");
     }
   };
-  return <UserSignup createUser={createUser} />;
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/signup"
+          element={<UserSignup createUser={createUser} />}
+        />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
