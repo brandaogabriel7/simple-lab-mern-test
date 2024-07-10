@@ -15,7 +15,11 @@ const UsersList = ({ getUsers, usersPerPage }) => {
       <h2>Usuários</h2>
       <ListGroup>
         {users?.map((user) => (
-          <ListGroup.Item key={user.email}>
+          <ListGroup.Item
+            role="listitem"
+            key={user.email}
+            aria-label={user.email}
+          >
             {user.email} | {user.name} - {user.birthDate}
           </ListGroup.Item>
         ))}

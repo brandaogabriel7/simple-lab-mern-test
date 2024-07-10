@@ -6,8 +6,8 @@ describe("UsersList", () => {
   it("should list one page of users", async () => {
     const usersPerPage = 5;
     const usersResponse = {
-      data: Array.from(() => ({
-        faker: faker.internet.email(),
+      data: Array.from({ length: usersPerPage }, () => ({
+        email: faker.internet.email(),
         name: faker.person.fullName(),
         birthDate: faker.date.past().toISOString().split("T")[0],
       })),
@@ -25,8 +25,9 @@ describe("UsersList", () => {
         name: user.email,
       });
       expect(userItem).toBeInTheDocument();
-      expect(within(userItem).getByText(user.name)).toBeInTheDocument();
-      expect(within(userItem).getByText(user.birthDate)).toBeInTheDocument();
+      expect(userItem).toContainHTML(user.email);
+      expect(userItem).toContainHTML(user.name);
+      expect(userItem).toContainHTML(user.birthDate);
     }
   });
 });
