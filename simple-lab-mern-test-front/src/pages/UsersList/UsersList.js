@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ListGroup } from "react-bootstrap";
 
 const UsersList = ({ getUsers, usersPerPage }) => {
   const [users, setUsers] = useState([]);
@@ -12,13 +13,13 @@ const UsersList = ({ getUsers, usersPerPage }) => {
   return (
     <>
       <h2>Usuários</h2>
-      <ul>
+      <ListGroup>
         {users?.map((user) => (
-          <li key={user.email}>
+          <ListGroup.Item key={user.email}>
             {user.email} | {user.name} - {user.birthDate}
-          </li>
+          </ListGroup.Item>
         ))}
-      </ul>
+      </ListGroup>
     </>
   );
 };
