@@ -30,6 +30,7 @@ services:
       context: ./simple-lab-mern-test-front
     environment:
       - REACT_APP_API_URL=http://localhost:8080
+      - READT_APP_USERS_PER_PAGE=10
     container_name: frontend
     ports:
       - "3000:3000"

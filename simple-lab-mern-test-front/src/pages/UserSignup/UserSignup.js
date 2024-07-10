@@ -12,7 +12,6 @@ const UserSignup = ({ createUser }) => {
 
     try {
       await createUser(user);
-      console.log("Usuário cadastrado com sucesso");
 
       setMessage("Usuário cadastrado com sucesso");
     } catch (error) {
