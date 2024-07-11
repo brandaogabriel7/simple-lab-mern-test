@@ -13,7 +13,9 @@ export default class UserRepository {
   }
 
   async update(user) {
-    const existingUser = await UserModel.findOne({ email: user.email }).lean();
+    const existingUser = await UserModel.findOne({ email: user.email })
+      .lean()
+      .exec();
     if (!existingUser) {
       throw new Error("User not found");
     }
@@ -24,15 +26,15 @@ export default class UserRepository {
         name: user.name,
         birthDate: user.birthDate.value,
       }
-    );
+    ).exec();
   }
 
   async delete(email) {
-    await UserModel.deleteOne({ email });
+    await UserModel.deleteOne({ email }).exec();
   }
 
   async getByEmail(email) {
-    const user = await UserModel.findOne({ email }).lean();
+    const user = await UserModel.findOne({ email }).lean().exec();
     if (!user) {
       return null;
     }
@@ -41,7 +43,11 @@ export default class UserRepository {
 
   async get(page, pageSize) {
     const $skip = pageSize * (page - 1);
-    const users = await UserModel.find().lean().skip($skip).limit(pageSize);
+    const users = await UserModel.find()
+      .lean()
+      .skip($skip)
+      .limit(pageSize)
+      .exec();
     return {
       users: users.map(
         (user) => new User(user.email, user.name, new BirthDate(user.birthDate))

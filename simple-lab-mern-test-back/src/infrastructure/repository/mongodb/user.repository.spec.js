@@ -21,7 +21,9 @@ describe("UserRepository tests", () => {
 
     await userRepository.create(user);
 
-    const createdUser = await UserModel.findOne({ email: user.email }).lean();
+    const createdUser = await UserModel.findOne({ email: user.email })
+      .lean()
+      .exec();
     expect(createdUser.email).toBe(user.email);
     expect(createdUser.name).toBe(user.name);
     expect(createdUser.birthDate.toISOString().split("T")[0]).toStrictEqual(
@@ -49,7 +51,9 @@ describe("UserRepository tests", () => {
 
     await userRepository.update(user);
 
-    let updatedUser = await UserModel.findOne({ email: user.email }).lean();
+    let updatedUser = await UserModel.findOne({ email: user.email })
+      .lean()
+      .exec();
     expect(updatedUser.email).toBe(user.email);
     expect(updatedUser.name).toBe(user.name);
     expect(updatedUser.birthDate.toISOString().split("T")[0]).toStrictEqual(
@@ -63,12 +67,16 @@ describe("UserRepository tests", () => {
 
     await userRepository.create(user);
 
-    const createdUser = await UserModel.findOne({ email: user.email }).lean();
+    const createdUser = await UserModel.findOne({ email: user.email })
+      .lean()
+      .exec();
     expect(createdUser).not.toBeNull();
 
     await userRepository.delete(user.email);
 
-    const deletedUser = await UserModel.findOne({ email: user.email }).lean();
+    const deletedUser = await UserModel.findOne({ email: user.email })
+      .lean()
+      .exec();
     expect(deletedUser).toBeNull();
   });
 
@@ -78,7 +86,9 @@ describe("UserRepository tests", () => {
 
     await userRepository.create(user);
 
-    const createdUser = await UserModel.findOne({ email: user.email }).lean();
+    const createdUser = await UserModel.findOne({ email: user.email })
+      .lean()
+      .exec();
 
     expect(createdUser.email).toBe(user.email);
     expect(createdUser.name).toBe(user.name);
