@@ -13,7 +13,7 @@ export default class UserRepository {
   }
 
   async update(user) {
-    const existingUser = await UserModel.findOne({ email: user.email });
+    const existingUser = await UserModel.findOne({ email: user.email }).lean();
     if (!existingUser) {
       throw new Error("User not found");
     }
@@ -32,7 +32,7 @@ export default class UserRepository {
   }
 
   async getByEmail(email) {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).lean();
     if (!user) {
       return null;
     }
@@ -41,7 +41,7 @@ export default class UserRepository {
 
   async get(page, pageSize) {
     const $skip = pageSize * (page - 1);
-    const users = await UserModel.find().skip($skip).limit(pageSize);
+    const users = await UserModel.find().lean().skip($skip).limit(pageSize);
     return {
       users: users.map(
         (user) => new User(user.email, user.name, new BirthDate(user.birthDate))
