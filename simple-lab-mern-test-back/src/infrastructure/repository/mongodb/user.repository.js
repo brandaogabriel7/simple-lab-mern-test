@@ -31,7 +31,7 @@ export default class UserRepository {
     await UserModel.deleteOne({ email });
   }
 
-  async find(email) {
+  async getByEmail(email) {
     const user = await UserModel.findOne({ email });
     if (!user) {
       return null;
@@ -39,7 +39,7 @@ export default class UserRepository {
     return new User(user.email, user.name, new BirthDate(user.birthDate));
   }
 
-  async findAll() {
+  async get() {
     const users = await UserModel.find();
     return users.map(
       (user) => new User(user.email, user.name, new BirthDate(user.birthDate))

@@ -20,7 +20,7 @@ const userRouter = (userService) => {
   });
 
   router.get("/", async (_, res) => {
-    const users = await userService.getAllUsers();
+    const users = await userService.getUsers();
     res.json(
       users.map((user) => ({
         email: user.email,

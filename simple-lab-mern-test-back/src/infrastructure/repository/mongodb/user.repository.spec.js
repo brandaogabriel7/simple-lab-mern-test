@@ -74,7 +74,7 @@ describe("UserRepository tests", () => {
 
     await userRepository.create(user);
 
-    const createdUser = await userRepository.find(user.email);
+    const createdUser = await userRepository.getByEmail(user.email);
 
     expect(createdUser.email).toBe(user.email);
     expect(createdUser.name).toBe(user.name);
@@ -84,7 +84,7 @@ describe("UserRepository tests", () => {
   it("should return null when trying to find user that does not exist", async () => {
     const email = "doesnotexist@test.com";
 
-    const user = await userRepository.find(email);
+    const user = await userRepository.getByEmail(email);
 
     expect(user).toBeNull();
   });
@@ -92,7 +92,7 @@ describe("UserRepository tests", () => {
   it("should find all users", async () => {
     await db.populateDatabase(10);
 
-    const users = await userRepository.findAll();
+    const users = await userRepository.get();
 
     expect(users.length).toBe(10);
   });

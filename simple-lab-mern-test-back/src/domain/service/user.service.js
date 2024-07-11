@@ -6,15 +6,15 @@ export default class UserService {
   }
 
   async getUserByEmail(email) {
-    return await this.#userRepository.find(email);
+    return await this.#userRepository.getByEmail(email);
   }
 
-  async getAllUsers() {
-    return await this.#userRepository.findAll();
+  async getUsers() {
+    return await this.#userRepository.get();
   }
 
   async createUser(user) {
-    const existingUser = await this.#userRepository.find(user.email);
+    const existingUser = await this.#userRepository.getByEmail(user.email);
     if (existingUser) {
       throw new Error("User with this email already exists");
     }

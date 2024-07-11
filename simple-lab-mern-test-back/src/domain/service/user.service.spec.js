@@ -9,8 +9,8 @@ describe("UserService tests", () => {
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
-    find: jest.fn(),
-    findAll: jest.fn(),
+    getByEmail: jest.fn(),
+    get: jest.fn(),
   };
   const userService = new UserService(userRepository);
 
@@ -21,7 +21,7 @@ describe("UserService tests", () => {
       new BirthDate(faker.date.past())
     );
 
-    userRepository.find.mockImplementation((email) => {
+    userRepository.getByEmail.mockImplementation((email) => {
       if (email === user.email) {
         return Promise.resolve(user);
       }
@@ -43,7 +43,7 @@ describe("UserService tests", () => {
       new BirthDate(faker.date.past())
     );
 
-    userRepository.find.mockResolvedValue(null);
+    userRepository.getByEmail.mockResolvedValue(null);
 
     await userService.createUser(user);
 
@@ -61,9 +61,9 @@ describe("UserService tests", () => {
       users.push(user);
     }
 
-    userRepository.findAll.mockResolvedValue(users);
+    userRepository.get.mockResolvedValue(users);
 
-    const foundUsers = await userService.getAllUsers();
+    const foundUsers = await userService.getUsers();
 
     expect(foundUsers).not.toBeNull();
     expect(foundUsers.length).toBe(users.length);
@@ -81,7 +81,7 @@ describe("UserService tests", () => {
       new BirthDate(faker.date.past())
     );
 
-    userRepository.find.mockImplementation((email) => {
+    userRepository.getByEmail.mockImplementation((email) => {
       if (email !== existingUser.email) {
         return Promise.reject(null);
       }
