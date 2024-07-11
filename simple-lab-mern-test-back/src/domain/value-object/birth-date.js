@@ -27,6 +27,6 @@ export default class BirthDate {
   }
 
   get value() {
-    return this.#value.toISOString().split("T")[0];
+    return toISODateOnlyString(this.#value),
   }
 }

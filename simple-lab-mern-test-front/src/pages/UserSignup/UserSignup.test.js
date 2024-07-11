@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { default as UserSignup } from "./UserSignup";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
+import { toISODateOnlyString } from "../../utils/date-utils";
 
 describe("User sign up page tests", () => {
   it("should display signup form", () => {
@@ -26,7 +27,7 @@ describe("User sign up page tests", () => {
 
     const email = faker.internet.email();
     const name = faker.person.fullName();
-    const birthDate = faker.date.past().toISOString().split("T")[0];
+    const birthDate = toISODateOnlyString(faker.date.past());
 
     const emailInput = screen.getByLabelText(/email/i);
     const nameInput = screen.getByLabelText(/nome/i);

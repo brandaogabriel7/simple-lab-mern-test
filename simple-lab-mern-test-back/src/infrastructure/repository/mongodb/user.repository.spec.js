@@ -3,6 +3,7 @@ import * as db from "./db.mock";
 import User from "../../../domain/entity/user";
 import BirthDate from "../../../domain/value-object/birth-date";
 import UserModel from "./user.model";
+import { toISODateOnlyString } from "../../../utils/date-utils";
 
 let userRepository;
 beforeAll(async () => {
@@ -26,7 +27,7 @@ describe("UserRepository tests", () => {
       .exec();
     expect(createdUser.email).toBe(user.email);
     expect(createdUser.name).toBe(user.name);
-    expect(createdUser.birthDate.toISOString().split("T")[0]).toStrictEqual(
+    expect(toISODateOnlyString(createdUser.birthDate)).toStrictEqual(
       user.birthDate.value
     );
   });
@@ -47,7 +48,7 @@ describe("UserRepository tests", () => {
       .exec();
     expect(updatedUser.email).toBe(user.email);
     expect(updatedUser.name).toBe(user.name);
-    expect(updatedUser.birthDate.toISOString().split("T")[0]).toStrictEqual(
+    expect(toISODateOnlyString(updatedUser.birthDate)).toStrictEqual(
       user.birthDate.value
     );
   });
@@ -83,7 +84,7 @@ describe("UserRepository tests", () => {
 
     expect(createdUser.email).toBe(user.email);
     expect(createdUser.name).toBe(user.name);
-    expect(createdUser.birthDate.toISOString().split("T")[0]).toStrictEqual(
+    expect(toISODateOnlyString(createdUser.birthDate)).toStrictEqual(
       user.birthDate.value
     );
   });

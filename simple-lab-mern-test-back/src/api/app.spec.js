@@ -2,6 +2,7 @@ import * as db from "../infrastructure/repository/mongodb/db.mock";
 import request from "supertest";
 import app from "./app";
 import { faker } from "@faker-js/faker";
+import { toISODateOnlyString } from "../utils/date-utils";
 
 describe("App integration tests", () => {
   beforeAll(async () => await db.connect());
@@ -15,7 +16,7 @@ describe("App integration tests", () => {
     const user1 = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString().split("T")[0],
+      birthDate: toISODateOnlyString(faker.date.past()),
     };
 
     let response = await request(app).post("/api/users").send(user1);
@@ -26,7 +27,7 @@ describe("App integration tests", () => {
     const user2 = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString().split("T")[0],
+      birthDate: toISODateOnlyString(faker.date.past()),
     };
 
     response = await request(app).post("/api/users").send(user2);
@@ -69,7 +70,7 @@ describe("App integration tests", () => {
     const updatedUser = {
       email: user2.email,
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString().split("T")[0],
+      birthDate: toISODateOnlyString(faker.date.past()),
     };
 
     response = await request(app).put("/api/users").send(updatedUser);
@@ -93,7 +94,7 @@ describe("App integration tests", () => {
     const user = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString().split("T")[0],
+      birthDate: toISODateOnlyString(faker.date.past()),
     };
 
     response = await request(app).post("/api/users").send(user);
@@ -115,7 +116,7 @@ describe("App integration tests", () => {
     const user = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString().split("T")[0],
+      birthDate: toISODateOnlyString(faker.date.past()),
     };
 
     let response = await request(app).post("/api/users").send(user);
@@ -124,7 +125,7 @@ describe("App integration tests", () => {
     const otherUser = {
       email: user.email,
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString().split("T")[0],
+      birthDate: toISODateOnlyString(faker.date.past()),
     };
 
     response = await request(app).post("/api/users").send(otherUser);

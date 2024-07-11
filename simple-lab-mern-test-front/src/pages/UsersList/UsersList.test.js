@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import UsersList from "./UsersList";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
+import { toISODateOnlyString } from "../../utils/date-utils";
 
 describe("UsersList", () => {
   const usersPerPage = 5;
@@ -15,7 +16,7 @@ describe("UsersList", () => {
         data: Array.from({ length: usersPerPage }, () => ({
           email: faker.internet.email(),
           name: faker.person.fullName(),
-          birthDate: faker.date.past().toISOString().split("T")[0],
+          birthDate: toISODateOnlyString(faker.date.past()),
         })),
         page: index + 1,
         totalPages,
