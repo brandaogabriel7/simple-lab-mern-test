@@ -5,24 +5,30 @@ import userEvent from "@testing-library/user-event";
 
 describe("UsersList", () => {
   const usersPerPage = 5;
+  const totalPages = 4;
   let usersResponses;
+  let getUsers;
+
   beforeEach(() => {
-    usersResponses = Array.from({ length: 4 }, () => {
+    usersResponses = Array.from({ length: totalPages }, (index) => {
       return {
         data: Array.from({ length: usersPerPage }, () => ({
           email: faker.internet.email(),
           name: faker.person.fullName(),
           birthDate: faker.date.past().toISOString().split("T")[0],
         })),
+        page: index + 1,
+        totalPages,
       };
+    });
+    getUsers = jest.fn();
+    getUsers.mockImplementation((options) => {
+      return Promise.resolve(usersResponses[options.page - 1]);
     });
   });
 
   it("should list one page of users", async () => {
     const usersResponse = usersResponses[0];
-
-    const getUsers = jest.fn();
-    getUsers.mockResolvedValueOnce(usersResponse);
 
     render(<UsersList getUsers={getUsers} usersPerPage={usersPerPage} />);
 
@@ -37,15 +43,11 @@ describe("UsersList", () => {
       expect(userItem).toContainHTML(user.name);
       expect(userItem).toContainHTML(user.birthDate);
     }
+    expect(await screen.findByText(/página 1/i)).toBeInTheDocument();
   });
 
   it("should navigate between pages", async () => {
     const user = userEvent.setup();
-
-    const getUsers = jest.fn();
-    getUsers.mockImplementation((options) => {
-      return Promise.resolve(usersResponses[options.page - 1]);
-    });
 
     render(<UsersList getUsers={getUsers} usersPerPage={usersPerPage} />);
 
@@ -100,5 +102,26 @@ describe("UsersList", () => {
     }
     expect(await screen.findByText(/página 1/i)).toBeInTheDocument();
     expect(previousButton).toBeDisabled();
+  });
+
+  it("should disable next button when there are no more pages", async () => {
+    const user = userEvent.setup();
+
+    render(<UsersList getUsers={getUsers} usersPerPage={usersPerPage} />);
+
+    const nextButton = screen.getByRole("button", { name: /próxima/i });
+
+    for (let i = 1; i < 4; i++) {
+      await user.click(nextButton);
+      expect(getUsers).toHaveBeenCalledWith({
+        page: i + 1,
+        pageSize: usersPerPage,
+      });
+      expect(
+        await screen.findByText(new RegExp(`página ${i + 1}`, "i"))
+      ).toBeInTheDocument();
+    }
+
+    expect(nextButton).toBeDisabled();
   });
 });

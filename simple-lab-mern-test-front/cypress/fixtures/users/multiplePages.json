@@ -21,7 +21,9 @@
         "name": "Test User 4",
         "birthDate": "1990-01-01"
       }
-    ]
+    ],
+    "page": 1,
+    "totalPages": 3
   },
   {
     "data": [
@@ -40,7 +42,9 @@
         "name": "Test User 7",
         "birthDate": "1995-12-30"
       }
-    ]
+    ],
+    "page": 2,
+    "totalPages": 3
   },
   {
     "data": [
@@ -49,6 +53,8 @@
         "name": "Test User 8",
         "birthDate": "1990-01-01"
       }
-    ]
+    ],
+    "page": 3,
+    "totalPages": 3
   }
 ]

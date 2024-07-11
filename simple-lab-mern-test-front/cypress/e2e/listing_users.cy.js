@@ -93,4 +93,15 @@ describe("Listing users", () => {
     cy.findByText(/página 1/i).should("exist");
     cy.get("@previousPageButton").should("be.disabled");
   });
+
+  it("should not try requesting more users after last page", function () {
+    const totalPages = this.usersResponses.length;
+    for (let i = 1; i < totalPages; i++) {
+      cy.get("@nextPageButton").click();
+      cy.wait("@usersRequest");
+      cy.findByText(new RegExp(`página ${i + 1}`, "i")).should("exist");
+    }
+
+    cy.get("@nextPageButton").should("be.disabled");
+  });
 });

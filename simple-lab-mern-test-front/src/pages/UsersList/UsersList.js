@@ -3,12 +3,14 @@ import { Button, ListGroup } from "react-bootstrap";
 
 const UsersList = ({ getUsers, usersPerPage }) => {
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     getUsers({ page, pageSize: usersPerPage })
       .then((response) => {
         setUsers(response.data);
+        setTotalPages(response.totalPages);
       })
       .catch((e) => console.error(e));
   }, [page, getUsers, usersPerPage]);
@@ -43,7 +45,11 @@ const UsersList = ({ getUsers, usersPerPage }) => {
         Anterior
       </Button>
       <p>Página {page}</p>
-      <Button name="próxima página" onClick={handleNextPage}>
+      <Button
+        name="próxima página"
+        disabled={page === totalPages}
+        onClick={handleNextPage}
+      >
         Próxima
       </Button>
     </>
