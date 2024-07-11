@@ -31,15 +31,6 @@ describe("UserRepository tests", () => {
     );
   });
 
-  it("should throw an error when trying to update a user that does not exist", async () => {
-    await expect(async () => {
-      const birthDate = new BirthDate("1993-01-02");
-      const user = new User("test@test.com", "Allastor", birthDate);
-
-      await userRepository.update(user);
-    }).rejects.toThrow("User not found");
-  });
-
   it("should update a user", async () => {
     const birthDate = new BirthDate("1993-01-02");
     const user = new User("test@test.com", "Allastor", birthDate);

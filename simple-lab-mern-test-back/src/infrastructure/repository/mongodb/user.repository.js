@@ -13,13 +13,7 @@ export default class UserRepository {
   }
 
   async update(user) {
-    const existingUser = await UserModel.findOne({ email: user.email })
-      .lean()
-      .exec();
-    if (!existingUser) {
-      throw new Error("User not found");
-    }
-    await UserModel.updateOne(
+    await UserModel.findOneAndUpdate(
       { email: user.email },
       {
         email: user.email,
@@ -43,10 +37,15 @@ export default class UserRepository {
 
   async get(page, pageSize) {
     const $skip = pageSize * (page - 1);
-    const users = await UserModel.find()
+    const users = await UserModel.find(
+      {},
+      {},
+      {
+        skip: $skip,
+        limit: pageSize,
+      }
+    )
       .lean()
-      .skip($skip)
-      .limit(pageSize)
       .exec();
     return {
       users: users.map(

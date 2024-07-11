@@ -108,15 +108,6 @@ describe("App integration tests", () => {
       `/api/users/${encodeURIComponent(user.email)}`
     );
     expect(response.statusCode).toBe(404);
-
-    // trying to update non-existing user
-
-    response = await request(app).put("/api/users").send({
-      email: faker.internet.email(),
-      name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString(),
-    });
-    expect(response.statusCode).toBe(404);
   });
 
   it("/users bad request errors", async () => {
