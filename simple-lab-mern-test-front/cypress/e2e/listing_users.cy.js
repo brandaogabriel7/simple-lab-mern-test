@@ -1,29 +1,96 @@
 describe("Listing users", () => {
-  it("should list one page of users", () => {
-    cy.fixture("users/onePage.json").then((usersResponse) => {
-      cy.intercept(
-        {
-          method: "GET",
-          pathname: "/api/users",
-          query: {
-            $skip: "0",
-          },
-        },
-        {
-          fixture: "users/onePage.json",
-        }
-      ).as("usersRequest");
+  beforeEach(function () {
+    cy.fixture("users/multiplePages.json").as("usersResponses");
+    cy.intercept(
+      {
+        method: "GET",
+        pathname: "/api/users",
+      },
+      (req) => {
+        const page = parseInt(req.query.page);
 
-      cy.visit("/");
+        req.reply(this.usersResponses[page - 1]);
+      }
+    ).as("usersRequest");
 
-      cy.wait("@usersRequest");
+    cy.visit("/");
 
-      usersResponse.data.forEach((user) => {
-        cy.contains(user.email)
-          .closest("li")
-          .should("contain", user.name)
-          .should("contain", user.birthDate);
-      });
+    cy.findByRole("button", {
+      name: /anterior/i,
+    })
+      .as("previousPageButton")
+      .should("exist");
+
+    cy.findByRole("button", {
+      name: /próxima/i,
+    })
+      .as("nextPageButton")
+      .should("exist");
+  });
+
+  it("should list one page of users", function () {
+    const usersResponse = this.usersResponses[0];
+    cy.wait("@usersRequest");
+
+    usersResponse.data.forEach((user) => {
+      cy.findByRole("listitem", {
+        name: user.email,
+      })
+        .should("contain", user.email)
+        .should("contain", user.name)
+        .should("contain", user.birthDate);
     });
+
+    cy.findByText(/página 1/i).should("exist");
+  });
+
+  it("should navigate between pages", function () {
+    const usersResponse = this.usersResponses[0];
+    cy.wait("@usersRequest");
+
+    usersResponse.data.forEach((user) => {
+      cy.findByRole("listitem", {
+        name: user.email,
+      })
+        .should("contain", user.email)
+        .should("contain", user.name)
+        .should("contain", user.birthDate);
+    });
+
+    cy.findByText(/página 1/i).should("exist");
+    cy.get("@previousPageButton").should("be.disabled");
+    cy.get("@nextPageButton").should("not.be.disabled");
+
+    cy.get("@nextPageButton").click();
+
+    cy.wait("@usersRequest");
+
+    const usersResponse2 = this.usersResponses[1];
+
+    usersResponse2.data.forEach((user) => {
+      cy.findByRole("listitem", {
+        name: user.email,
+      })
+        .should("contain", user.email)
+        .should("contain", user.name)
+        .should("contain", user.birthDate);
+    });
+
+    cy.findByText(/página 2/i).should("exist");
+    cy.get("@previousPageButton").should("not.be.disabled");
+    cy.get("@previousPageButton").click();
+
+    cy.wait("@usersRequest");
+
+    usersResponse.data.forEach((user) => {
+      cy.findByRole("listitem", {
+        name: user.email,
+      })
+        .should("contain", user.email)
+        .should("contain", user.name)
+        .should("contain", user.birthDate);
+    });
+    cy.findByText(/página 1/i).should("exist");
+    cy.get("@previousPageButton").should("be.disabled");
   });
 });

@@ -20,9 +20,9 @@ function App() {
   };
 
   const getUsers = async (options) => {
-    const { $skip, $take } = options;
+    const { page, pageSize } = options;
     const response = await fetch(
-      `${apiUrl}/api/users?${new URLSearchParams({ $skip, $take })}`
+      `${apiUrl}/api/users?${new URLSearchParams({ page, pageSize })}`
     );
     if (response.status !== 200) {
       throw new Error("Failed to get users");
