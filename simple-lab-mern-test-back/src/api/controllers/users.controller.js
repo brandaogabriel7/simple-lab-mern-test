@@ -13,21 +13,36 @@ const userRouter = (userService) => {
       return;
     }
     res.json({
-      email: user.email,
-      name: user.name,
-      birthDate: user.birthDate.value,
+      data: {
+        email: user.email,
+        name: user.name,
+        birthDate: user.birthDate.value,
+      },
     });
   });
 
-  router.get("/", async (_, res) => {
-    const users = await userService.getUsers();
-    res.json(
-      users.map((user) => ({
+  router.get("/", async (req, res) => {
+    let page;
+    let pageSize;
+    try {
+      page = parseInt(req.query.page);
+      pageSize = parseInt(req.query.pageSize);
+    } catch (err) {
+      page = 1;
+      pageSize = 50;
+    }
+
+    const { users, pageInfo } = await userService.getUsers(page, pageSize);
+    res.json({
+      data: users.map((user) => ({
         email: user.email,
         name: user.name,
-        birthDate: user.birthDate.value.toISOString(),
-      }))
-    );
+        birthDate: user.birthDate.value,
+      })),
+      page: pageInfo.page,
+      pageSize: pageInfo.pageSize,
+      totalPages: pageInfo.totalPages,
+    });
   });
 
   router.post("/", async (req, res) => {

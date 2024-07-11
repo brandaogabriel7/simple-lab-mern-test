@@ -50,28 +50,33 @@ describe("UserService tests", () => {
     expect(userRepository.create).toHaveBeenCalledWith(user);
   });
 
-  it("should get all users", async () => {
-    const users = [];
+  it("should get users", async () => {
+    const mockResponse = {
+      users: [],
+      pageInfo: { page: 1, pageSize: 10, totalPages: 1 },
+    };
     for (let i = 0; i < 10; i++) {
       const user = new User(
         faker.internet.email(),
         faker.person.fullName(),
         new BirthDate(faker.date.past())
       );
-      users.push(user);
+      mockResponse.users.push(user);
     }
 
-    userRepository.get.mockResolvedValue(users);
+    userRepository.get.mockResolvedValue(mockResponse);
 
-    const foundUsers = await userService.getUsers();
+    const response = await userService.getUsers(
+      mockResponse.pageInfo.page,
+      mockResponse.pageInfo.pageSize
+    );
 
-    expect(foundUsers).not.toBeNull();
-    expect(foundUsers.length).toBe(users.length);
-    for (let foundUser in foundUsers) {
-      expect(foundUser.email).toBe(users.email);
-      expect(foundUser.name).toBe(users.name);
-      expect(foundUser.birthDate).toStrictEqual(users.birthDate);
-    }
+    expect(userRepository.get).toHaveBeenCalledWith(
+      mockResponse.pageInfo.page,
+      mockResponse.pageInfo.pageSize
+    );
+
+    expect(response).toEqual(mockResponse);
   });
 
   it("should throw an error when trying to create a user with repeated email", async () => {

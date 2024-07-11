@@ -9,8 +9,11 @@ export default class UserService {
     return await this.#userRepository.getByEmail(email);
   }
 
-  async getUsers() {
-    return await this.#userRepository.get();
+  async getUsers(page, pageSize) {
+    page ?? 1;
+    pageSize ?? 50;
+
+    return await this.#userRepository.get(page, pageSize);
   }
 
   async createUser(user) {

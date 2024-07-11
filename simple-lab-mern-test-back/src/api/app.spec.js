@@ -15,7 +15,7 @@ describe("App integration tests", () => {
     const user1 = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString(),
+      birthDate: faker.date.past().toISOString().split("T")[0],
     };
 
     let response = await request(app).post("/api/users").send(user1);
@@ -26,7 +26,7 @@ describe("App integration tests", () => {
     const user2 = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString(),
+      birthDate: faker.date.past().toISOString().split("T")[0],
     };
 
     response = await request(app).post("/api/users").send(user2);
@@ -38,12 +38,21 @@ describe("App integration tests", () => {
     );
 
     expect(response.statusCode).toBe(200);
-    expect(response.body).toStrictEqual(user1);
+    expect(response.body).toStrictEqual({ data: user1 });
 
     // retrieve all users
-    response = await request(app).get("/api/users");
+
+    const query = new URLSearchParams({ page: 1, pageSize: 2 });
+    const url = `/api/users?${query.toString()}`;
+    response = await request(app).get(url);
+
     expect(response.statusCode).toBe(200);
-    expect(response.body).toStrictEqual([user1, user2]);
+    expect(response.body).toStrictEqual({
+      data: [user1, user2],
+      page: 1,
+      pageSize: 2,
+      totalPages: 1,
+    });
 
     //delete user
     response = await request(app).delete(
@@ -60,7 +69,7 @@ describe("App integration tests", () => {
     const updatedUser = {
       email: user2.email,
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString(),
+      birthDate: faker.date.past().toISOString().split("T")[0],
     };
 
     response = await request(app).put("/api/users").send(updatedUser);
@@ -70,7 +79,7 @@ describe("App integration tests", () => {
       `/api/users/${encodeURIComponent(user2.email)}`
     );
     expect(response.statusCode).toBe(200);
-    expect(response.body).toStrictEqual(updatedUser);
+    expect(response.body).toStrictEqual({ data: updatedUser });
   });
 
   it("/users not found errors", async () => {
@@ -84,7 +93,7 @@ describe("App integration tests", () => {
     const user = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString(),
+      birthDate: faker.date.past().toISOString().split("T")[0],
     };
 
     response = await request(app).post("/api/users").send(user);
@@ -115,7 +124,7 @@ describe("App integration tests", () => {
     const user = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString(),
+      birthDate: faker.date.past().toISOString().split("T")[0],
     };
 
     let response = await request(app).post("/api/users").send(user);
@@ -124,7 +133,7 @@ describe("App integration tests", () => {
     const otherUser = {
       email: user.email,
       name: faker.person.fullName(),
-      birthDate: faker.date.past().toISOString(),
+      birthDate: faker.date.past().toISOString().split("T")[0],
     };
 
     response = await request(app).post("/api/users").send(otherUser);

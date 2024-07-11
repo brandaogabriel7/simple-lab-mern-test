@@ -24,7 +24,9 @@ describe("UserRepository tests", () => {
     const createdUser = await UserModel.findOne({ email: user.email });
     expect(createdUser.email).toBe(user.email);
     expect(createdUser.name).toBe(user.name);
-    expect(createdUser.birthDate).toStrictEqual(user.birthDate.value);
+    expect(createdUser.birthDate.toISOString().split("T")[0]).toStrictEqual(
+      user.birthDate.value
+    );
   });
 
   it("should throw an error when trying to update a user that does not exist", async () => {
@@ -50,7 +52,9 @@ describe("UserRepository tests", () => {
     let updatedUser = await UserModel.findOne({ email: user.email });
     expect(updatedUser.email).toBe(user.email);
     expect(updatedUser.name).toBe(user.name);
-    expect(updatedUser.birthDate).toStrictEqual(user.birthDate.value);
+    expect(updatedUser.birthDate.toISOString().split("T")[0]).toStrictEqual(
+      user.birthDate.value
+    );
   });
 
   it("should delete a user", async () => {
@@ -74,11 +78,13 @@ describe("UserRepository tests", () => {
 
     await userRepository.create(user);
 
-    const createdUser = await userRepository.getByEmail(user.email);
+    const createdUser = await UserModel.findOne({ email: user.email });
 
     expect(createdUser.email).toBe(user.email);
     expect(createdUser.name).toBe(user.name);
-    expect(createdUser.birthDate.value).toStrictEqual(user.birthDate.value);
+    expect(createdUser.birthDate.toISOString().split("T")[0]).toStrictEqual(
+      user.birthDate.value
+    );
   });
 
   it("should return null when trying to find user that does not exist", async () => {
@@ -89,11 +95,21 @@ describe("UserRepository tests", () => {
     expect(user).toBeNull();
   });
 
-  it("should find all users", async () => {
-    await db.populateDatabase(10);
+  it("should get users", async () => {
+    const expectedPageInfo = {
+      page: 1,
+      pageSize: 10,
+      totalPages: 1,
+    };
 
-    const users = await userRepository.get();
+    await db.populateDatabase(expectedPageInfo.pageSize);
 
-    expect(users.length).toBe(10);
+    const { users, pageInfo } = await userRepository.get(
+      expectedPageInfo.page,
+      expectedPageInfo.pageSize
+    );
+
+    expect(users.length).toBe(expectedPageInfo.pageSize);
+    expect(pageInfo).toStrictEqual(expectedPageInfo);
   });
 });

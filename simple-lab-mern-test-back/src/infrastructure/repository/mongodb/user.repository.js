@@ -39,10 +39,18 @@ export default class UserRepository {
     return new User(user.email, user.name, new BirthDate(user.birthDate));
   }
 
-  async get() {
-    const users = await UserModel.find();
-    return users.map(
-      (user) => new User(user.email, user.name, new BirthDate(user.birthDate))
-    );
+  async get(page, pageSize) {
+    const $skip = pageSize * (page - 1);
+    const users = await UserModel.find().skip($skip).limit(pageSize);
+    return {
+      users: users.map(
+        (user) => new User(user.email, user.name, new BirthDate(user.birthDate))
+      ),
+      pageInfo: {
+        page,
+        pageSize,
+        totalPages: Math.ceil((await UserModel.countDocuments()) / pageSize),
+      },
+    };
   }
 }
