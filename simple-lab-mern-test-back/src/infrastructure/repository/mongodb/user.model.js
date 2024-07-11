@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema(
     name: { type: String, required: true },
     birthDate: { type: Date, required: true },
   },
-  { collection: "users" }
+  { collection: "users", strictQuery: true }
 );
 
 UserSchema.index({ email: 1 }, { unique: true });
