@@ -51,32 +51,38 @@ describe("UserService tests", () => {
   });
 
   it("should get users", async () => {
-    const mockResponse = {
-      users: [],
-      pageInfo: { page: 1, pageSize: 10, totalPages: 1 },
-    };
-    for (let i = 0; i < 10; i++) {
-      const user = new User(
-        faker.internet.email(),
-        faker.person.fullName(),
-        new BirthDate(faker.date.past())
+    const responses = Array.from({ length: 5 }, (_, index) => {
+      return {
+        users: Array.from({ length: 10 }, () => {
+          return new User(
+            faker.internet.email(),
+            faker.person.fullName(),
+            new BirthDate(faker.date.past())
+          );
+        }),
+        pageInfo: { page: index + 1, pageSize: 10, totalPages: 5 },
+      };
+    });
+
+    userRepository.get.mockImplementation((page, _) => {
+      return Promise.resolve(
+        responses.find((response) => response.pageInfo.page === page)
       );
-      mockResponse.users.push(user);
+    });
+
+    for (let page in responses) {
+      const response = await userService.getUsers(
+        responses[page].pageInfo.page,
+        responses[page].pageInfo.pageSize
+      );
+
+      expect(userRepository.get).toHaveBeenCalledWith(
+        responses[page].pageInfo.page,
+        responses[page].pageInfo.pageSize
+      );
+
+      expect(response).toEqual(responses[page]);
     }
-
-    userRepository.get.mockResolvedValue(mockResponse);
-
-    const response = await userService.getUsers(
-      mockResponse.pageInfo.page,
-      mockResponse.pageInfo.pageSize
-    );
-
-    expect(userRepository.get).toHaveBeenCalledWith(
-      mockResponse.pageInfo.page,
-      mockResponse.pageInfo.pageSize
-    );
-
-    expect(response).toEqual(mockResponse);
   });
 
   it("should throw an error when trying to create a user with repeated email", async () => {

@@ -10,7 +10,7 @@ describe("UsersList", () => {
   let getUsers;
 
   beforeEach(() => {
-    usersResponses = Array.from({ length: totalPages }, (index) => {
+    usersResponses = Array.from({ length: totalPages }, (_, index) => {
       return {
         data: Array.from({ length: usersPerPage }, () => ({
           email: faker.internet.email(),
@@ -23,7 +23,9 @@ describe("UsersList", () => {
     });
     getUsers = jest.fn();
     getUsers.mockImplementation((options) => {
-      return Promise.resolve(usersResponses[options.page - 1]);
+      return Promise.resolve(
+        usersResponses.find((response) => response.page === options.page)
+      );
     });
   });
 

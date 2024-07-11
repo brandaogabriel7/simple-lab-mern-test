@@ -97,20 +97,19 @@ describe("UserRepository tests", () => {
   });
 
   it("should get users", async () => {
-    const expectedPageInfo = {
-      page: 1,
-      pageSize: 10,
-      totalPages: 1,
-    };
+    const pageSize = 10;
+    const totalPages = 10;
 
-    await db.populateDatabase(expectedPageInfo.pageSize);
+    const operations = Array.from({ length: totalPages }, () => {
+      return db.populateDatabase(pageSize);
+    });
+    await Promise.all(operations);
 
-    const { users, pageInfo } = await userRepository.get(
-      expectedPageInfo.page,
-      expectedPageInfo.pageSize
-    );
+    for (let i = 0; i < totalPages; i++) {
+      const { users, pageInfo } = await userRepository.get(i + 1, pageSize);
 
-    expect(users.length).toBe(expectedPageInfo.pageSize);
-    expect(pageInfo).toStrictEqual(expectedPageInfo);
+      expect(users.length).toBe(pageSize);
+      expect(pageInfo).toStrictEqual({ page: i + 1, pageSize, totalPages });
+    }
   });
 });

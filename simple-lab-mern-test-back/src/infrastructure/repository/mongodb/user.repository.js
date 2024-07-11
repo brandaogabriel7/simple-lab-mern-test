@@ -47,6 +47,9 @@ export default class UserRepository {
     )
       .lean()
       .exec();
+
+    const totalUsers = await UserModel.countDocuments().exec();
+    const totalPages = Math.ceil(totalUsers / pageSize);
     return {
       users: users.map(
         (user) => new User(user.email, user.name, new BirthDate(user.birthDate))
@@ -54,7 +57,7 @@ export default class UserRepository {
       pageInfo: {
         page,
         pageSize,
-        totalPages: Math.ceil((await UserModel.countDocuments()) / pageSize),
+        totalPages,
       },
     };
   }
