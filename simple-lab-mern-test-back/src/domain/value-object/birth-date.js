@@ -1,3 +1,5 @@
+import { toISODateOnlyString } from "../../utils/date-utils.js";
+
 export default class BirthDate {
   #value;
 
@@ -27,6 +29,6 @@ export default class BirthDate {
   }
 
   get value() {
-    return toISODateOnlyString(this.#value),
+    return toISODateOnlyString(this.#value);
   }
 }
