@@ -1,5 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
-import UsersList from "./UsersList";
+import UsersList from "./UsersListPage";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../utils/date-utils";
