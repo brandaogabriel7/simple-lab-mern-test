@@ -23,3 +23,18 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("setupUsersRequest", function () {
+  cy.fixture("users/usersResponses.json").as("usersResponses");
+  cy.intercept(
+    {
+      method: "GET",
+      pathname: "/api/users",
+    },
+    (req) => {
+      const page = parseInt(req.query.page);
+
+      req.reply(this.usersResponses[page - 1]);
+    }
+  ).as("usersRequest");
+});

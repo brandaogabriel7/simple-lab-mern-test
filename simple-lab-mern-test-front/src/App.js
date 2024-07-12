@@ -4,7 +4,7 @@ import UsersList from "./pages/UsersList/UsersList";
 
 function App() {
   const apiUrl = process.env.REACT_APP_API_URL;
-  const usersPerPage = process.env.REACT_APP_USERS_PER_PAGE || 5;
+  const usersPerPage = parseInt(process.env.REACT_APP_USERS_PER_PAGE) || 5;
 
   const createUser = async (user) => {
     const response = await fetch(`${apiUrl}/api/users`, {
@@ -17,6 +17,10 @@ function App() {
     if (response.status !== 201) {
       throw new Error("Failed to create user");
     }
+  };
+
+  const updateUser = () => {
+    console.log("updateUser");
   };
 
   const getUsers = async (options) => {
@@ -39,7 +43,11 @@ function App() {
         <Route
           path="/"
           element={
-            <UsersList getUsers={getUsers} usersPerPage={usersPerPage} />
+            <UsersList
+              getUsers={getUsers}
+              updateUser={updateUser}
+              usersPerPage={usersPerPage}
+            />
           }
         />
       </Routes>

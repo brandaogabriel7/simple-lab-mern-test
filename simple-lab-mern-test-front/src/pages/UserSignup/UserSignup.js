@@ -45,17 +45,16 @@ const UserSignup = ({ createUser }) => {
         </Form.Group>
         <Button type="submit">Cadastrar</Button>
       </Form>
-      {message && (
-        <Toast
-          onClose={() => {
-            setMessage("");
-          }}
-          delay={4000}
-          autohide
-        >
-          <Toast.Header>{message}</Toast.Header>
-        </Toast>
-      )}
+      <Toast
+        onClose={() => {
+          setMessage("");
+        }}
+        delay={4000}
+        autohide
+        show={!!message}
+      >
+        <Toast.Header>{message}</Toast.Header>
+      </Toast>
     </>
   );
 };
