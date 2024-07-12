@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, Form, ListGroup, Modal, Toast } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-const UsersList = ({ getUsers, updateUser, usersPerPage }) => {
+const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [editingUser, setEditingUser] = useState(null);
@@ -150,10 +150,10 @@ const UsersList = ({ getUsers, updateUser, usersPerPage }) => {
   );
 };
 
-UsersList.propTypes = {
+UsersListPage.propTypes = {
   getUsers: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   usersPerPage: PropTypes.number.isRequired,
 };
 
-export default UsersList;
+export default UsersListPage;

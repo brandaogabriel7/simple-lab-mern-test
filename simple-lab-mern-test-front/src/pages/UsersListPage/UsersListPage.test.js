@@ -1,5 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
-import UsersList from "./UsersListPage";
+import UsersListPage from "./UsersListPage";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../utils/date-utils";
@@ -37,7 +37,7 @@ describe("UsersList", () => {
     const usersResponse = usersResponses[0];
 
     render(
-      <UsersList
+      <UsersListPage
         getUsers={getUsers}
         updateUser={updateUser}
         usersPerPage={usersPerPage}
@@ -62,7 +62,7 @@ describe("UsersList", () => {
     const user = userEvent.setup();
 
     render(
-      <UsersList
+      <UsersListPage
         getUsers={getUsers}
         updateUser={updateUser}
         usersPerPage={usersPerPage}
@@ -126,7 +126,7 @@ describe("UsersList", () => {
     const user = userEvent.setup();
 
     render(
-      <UsersList
+      <UsersListPage
         getUsers={getUsers}
         updateUser={updateUser}
         usersPerPage={usersPerPage}
@@ -153,7 +153,7 @@ describe("UsersList", () => {
     const user = userEvent.setup();
 
     render(
-      <UsersList
+      <UsersListPage
         getUsers={getUsers}
         updateUser={updateUser}
         usersPerPage={usersPerPage}

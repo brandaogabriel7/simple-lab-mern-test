@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { default as UserSignup } from "./UserSignupPage";
+import UserSignupPage from "./UserSignupPage";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../utils/date-utils";
 
 describe("User sign up page tests", () => {
   it("should display signup form", () => {
-    render(<UserSignup />);
+    render(<UserSignupPage />);
     expect(
       screen.getByRole("heading", { name: /Cadastrar novo usuário/i })
     ).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("User sign up page tests", () => {
     const user = userEvent.setup();
 
     const createUser = jest.fn();
-    render(<UserSignup createUser={createUser} />);
+    render(<UserSignupPage createUser={createUser} />);
 
     const email = faker.internet.email();
     const name = faker.person.fullName();
@@ -54,7 +54,7 @@ describe("User sign up page tests", () => {
     const user = userEvent.setup();
     const createUser = jest.fn();
     createUser.mockRejectedValueOnce(new Error("Couldn't create user"));
-    render(<UserSignup createUser={createUser} />);
+    render(<UserSignupPage createUser={createUser} />);
 
     const submitButton = screen.getByRole("button", { name: /cadastrar/i });
 

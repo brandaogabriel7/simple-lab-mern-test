@@ -1,10 +1,10 @@
-import UserSignup from "./pages/UserSignup/UserSignup";
+import UserSignupPage from "./pages/UserSignupPage/UserSignupPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import UsersList from "./pages/UsersList/UsersList";
+import UsersListPage from "./pages/UsersListPage/UsersListPage";
+import config from "./config/config";
 
 function App() {
-  const apiUrl = process.env.REACT_APP_API_URL;
-  const usersPerPage = parseInt(process.env.REACT_APP_USERS_PER_PAGE) || 5;
+  const { apiUrl, usersPerPage } = config;
 
   const createUser = async (user) => {
     const response = await fetch(`${apiUrl}/api/users`, {
@@ -38,12 +38,12 @@ function App() {
       <Routes>
         <Route
           path="/signup"
-          element={<UserSignup createUser={createUser} />}
+          element={<UserSignupPage createUser={createUser} />}
         />
         <Route
           path="/"
           element={
-            <UsersList
+            <UsersListPage
               getUsers={getUsers}
               updateUser={updateUser}
               usersPerPage={usersPerPage}
