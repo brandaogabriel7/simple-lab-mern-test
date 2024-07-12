@@ -9,7 +9,6 @@ describe("UsersList", () => {
   const totalPages = 4;
   let usersResponses;
   let getUsers;
-  let updateUser;
 
   beforeEach(() => {
     usersResponses = Array.from({ length: totalPages }, (_, index) => {
@@ -29,8 +28,6 @@ describe("UsersList", () => {
         usersResponses.find((response) => response.page === options.page)
       );
     });
-
-    updateUser = jest.fn();
   });
 
   it("should list one page of users", async () => {
@@ -39,7 +36,7 @@ describe("UsersList", () => {
     render(
       <UsersListPage
         getUsers={getUsers}
-        updateUser={updateUser}
+        updateUser={() => {}}
         usersPerPage={usersPerPage}
       />
     );
@@ -64,7 +61,7 @@ describe("UsersList", () => {
     render(
       <UsersListPage
         getUsers={getUsers}
-        updateUser={updateUser}
+        updateUser={() => {}}
         usersPerPage={usersPerPage}
       />
     );
@@ -128,7 +125,7 @@ describe("UsersList", () => {
     render(
       <UsersListPage
         getUsers={getUsers}
-        updateUser={updateUser}
+        updateUser={() => {}}
         usersPerPage={usersPerPage}
       />
     );
@@ -151,6 +148,8 @@ describe("UsersList", () => {
 
   it("should edit a user", async () => {
     const user = userEvent.setup();
+
+    const updateUser = jest.fn();
 
     render(
       <UsersListPage
@@ -193,6 +192,11 @@ describe("UsersList", () => {
       name: /salvar/i,
     });
     await user.click(submitButton);
+
+    expect(updateUser).toHaveBeenCalledWith({
+      email: firstUser.email,
+      ...updatedFields,
+    });
 
     expect(
       await screen.findByText(/usuário editado com sucesso/i)
