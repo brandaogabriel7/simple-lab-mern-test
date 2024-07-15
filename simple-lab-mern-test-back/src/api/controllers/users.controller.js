@@ -38,18 +38,8 @@ const getUsers = async (userService, req, res) => {
     birthDateAfter: req.query.birthDateAfter,
   };
 
-  const response = await userService.getUsers(page, pageSize, filter);
-  res.json({
-    data: response.users.map((user) => ({
-      email: user.email,
-      name: user.name,
-      birthDate: user.birthDate.value,
-    })),
-    page: response.pageInfo.page,
-    pageSize: response.pageInfo.pageSize,
-    totalPages: response.pageInfo.totalPages,
-    filter: response.filter,
-  });
+  const serviceResponse = await userService.getUsers(page, pageSize, filter);
+  res.json(buildUserResponse(serviceResponse));
 };
 
 const createUser = async (userService, req, res) => {
@@ -97,4 +87,24 @@ const updateUser = async (userService, req, res) => {
   res.send();
 };
 
+const buildUserResponse = (serviceResponse) => {
+  const userResponse = {
+    data: serviceResponse.users.map((user) => ({
+      email: user.email,
+      name: user.name,
+      birthDate: user.birthDate.value,
+    })),
+    page: serviceResponse.pageInfo.page,
+    pageSize: serviceResponse.pageInfo.pageSize,
+    totalPages: serviceResponse.pageInfo.totalPages,
+    filter: serviceResponse.filter,
+  };
+  if (
+    !serviceResponse.filter.birthDate.before &&
+    !serviceResponse.filter.birthDate.after
+  ) {
+    delete userResponse.filter.birthDate;
+  }
+  return userResponse;
+};
 export { getUserByEmail, getUsers, createUser, deleteUser, updateUser };
