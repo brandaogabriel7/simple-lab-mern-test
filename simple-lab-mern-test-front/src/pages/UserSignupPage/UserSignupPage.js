@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { Button, Form, Toast } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+import { useToast } from "../../components/ToastManager/ToastManager";
 
+const toastDelay = 3000;
 const UserSignup = ({ createUser }) => {
-  const [message, setMessage] = useState("");
+  const { addToast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,10 +14,19 @@ const UserSignup = ({ createUser }) => {
     try {
       await createUser(user);
 
-      setMessage("Usuário cadastrado com sucesso");
+      addToast(
+        "Usuário cadastrado",
+        "Usuário cadastrado com sucesso",
+        "success",
+        toastDelay
+      );
     } catch (error) {
-      console.error(error);
-      setMessage("Não foi possível cadastrar o usuário");
+      addToast(
+        "Erro ao cadastrar usuário",
+        "Não foi possível cadastrar o usuário",
+        "error",
+        toastDelay
+      );
     } finally {
       e.target.reset();
     }
@@ -45,16 +55,6 @@ const UserSignup = ({ createUser }) => {
         </Form.Group>
         <Button type="submit">Cadastrar</Button>
       </Form>
-      <Toast
-        onClose={() => {
-          setMessage("");
-        }}
-        delay={4000}
-        autohide
-        show={!!message}
-      >
-        <Toast.Header>{message}</Toast.Header>
-      </Toast>
     </>
   );
 };

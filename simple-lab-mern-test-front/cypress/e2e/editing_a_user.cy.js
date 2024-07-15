@@ -3,6 +3,10 @@ describe("Editing a user", () => {
     cy.setupUsersRequest();
 
     cy.visit("/");
+
+    cy.intercept("PUT", `${Cypress.config().apiUrl}/api/users`, {
+      statusCode: 200,
+    }).as("updateUserRequest");
   });
 
   it("should edit a user", function () {
@@ -38,6 +42,8 @@ describe("Editing a user", () => {
         name: /salvar/i,
       }).click();
     });
+
+    cy.wait("@updateUserRequest");
 
     cy.findByText("Usuário editado com sucesso");
 

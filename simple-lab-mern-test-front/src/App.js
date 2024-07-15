@@ -1,7 +1,13 @@
 import UserSignupPage from "./pages/UserSignupPage/UserSignupPage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import UsersListPage from "./pages/UsersListPage/UsersListPage";
 import config from "./config/config";
+import { ToastProvider } from "./components/ToastManager/ToastManager";
 
 function App() {
   const { apiUrl, usersPerPage } = config;
@@ -19,8 +25,14 @@ function App() {
     }
   };
 
-  const updateUser = () => {
-    console.log("updateUser");
+  const updateUser = (user) => {
+    return fetch(`${apiUrl}/api/users`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
   };
 
   const getUsers = async (options) => {
@@ -37,19 +49,30 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/signup"
-          element={<UserSignupPage createUser={createUser} />}
-        />
-        <Route
           path="/"
           element={
-            <UsersListPage
-              getUsers={getUsers}
-              updateUser={updateUser}
-              usersPerPage={usersPerPage}
-            />
+            <>
+              <ToastProvider>
+                <Outlet />
+              </ToastProvider>
+            </>
           }
-        />
+        >
+          <Route
+            path="/signup"
+            element={<UserSignupPage createUser={createUser} />}
+          />
+          <Route
+            path="/"
+            element={
+              <UsersListPage
+                getUsers={getUsers}
+                updateUser={updateUser}
+                usersPerPage={usersPerPage}
+              />
+            }
+          />
+        </Route>
       </Routes>
     </Router>
   );

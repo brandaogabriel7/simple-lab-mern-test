@@ -4,7 +4,16 @@ import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../utils/date-utils";
 
+const mockAddToast = jest.fn();
+jest.mock("../../components/ToastManager/ToastManager", () => ({
+  useToast: () => ({
+    addToast: mockAddToast,
+  }),
+}));
+
 describe("User sign up page tests", () => {
+  beforeEach(() => jest.clearAllMocks());
+
   it("should display signup form", () => {
     render(<UserSignupPage />);
     expect(
@@ -40,14 +49,16 @@ describe("User sign up page tests", () => {
     await user.click(submitButton);
 
     expect(createUser).toHaveBeenCalledWith({ email, name, birthDate });
+    expect(mockAddToast).toHaveBeenCalledWith(
+      expect.stringMatching(/usuário cadastrado/i),
+      expect.stringMatching(/usuário cadastrado com sucesso/i),
+      "success",
+      expect.any(Number)
+    );
 
     expect(emailInput).toHaveValue("");
     expect(nameInput).toHaveValue("");
     expect(birthDateInput).toHaveValue("");
-
-    expect(
-      await screen.findByText(/usuário cadastrado com sucesso/i)
-    ).toBeInTheDocument();
   });
 
   it("should show error message when user creation fails", async () => {
@@ -60,8 +71,11 @@ describe("User sign up page tests", () => {
 
     await user.click(submitButton);
 
-    expect(
-      screen.getByText(/não foi possível cadastrar o usuário/i)
-    ).toBeInTheDocument();
+    expect(mockAddToast).toHaveBeenCalledWith(
+      expect.stringMatching(/erro ao cadastrar usuário/i),
+      expect.stringMatching(/não foi possível cadastrar o usuário/i),
+      "error",
+      expect.any(Number)
+    );
   });
 });

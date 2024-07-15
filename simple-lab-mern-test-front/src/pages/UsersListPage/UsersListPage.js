@@ -1,26 +1,31 @@
 import { useState, useEffect } from "react";
-import { Button, Form, ListGroup, Modal, Toast } from "react-bootstrap";
+import { Button, ListGroup } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { useToast } from "../../components/ToastManager/ToastManager";
+import UserEditModal from "./components/UserEditModal/UserEditModal";
 
 const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
+  const { addToast } = useToast();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [editingUser, setEditingUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     getUsers({ page, pageSize: usersPerPage })
       .then((response) => {
         setUsers(response.data);
         setTotalPages(response.totalPages);
-        setPage(response.page);
       })
       .catch((e) => {
-        console.error(e);
-        setMessage("Não foi possível carregar os usuários");
+        addToast(
+          "Erro ao buscar usuários",
+          "Não foi possível buscar os usuários",
+          "error",
+          3000
+        );
       });
-  }, [page, getUsers, usersPerPage]);
+  }, [page, getUsers, usersPerPage, addToast]);
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -38,19 +43,15 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
     setEditingUser(null);
   };
 
-  const handleEditUserFieldChange = (e) => {
-    setEditingUser((prevUser) => ({
-      ...prevUser,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSaveEditedUser = async (e) => {
-    e.preventDefault();
-    const user = { ...editingUser };
+  const handleUpdateUser = async (user) => {
     try {
       await updateUser(user);
-      setMessage("Usuário editado com sucesso");
+      addToast(
+        "Usuário editado",
+        "Usuário editado com sucesso",
+        "success",
+        3000
+      );
       setEditingUser(null);
       setUsers((prevUsers) => {
         const userIndex = prevUsers.findIndex(
@@ -61,8 +62,12 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
         return newUsers;
       });
     } catch (error) {
-      console.error(error);
-      setMessage("Não foi possível editar o usuário");
+      addToast(
+        "Erro ao editar usuário",
+        "Não foi possível editar o usuário",
+        "error",
+        3000
+      );
     }
   };
 
@@ -103,49 +108,16 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
       >
         Próxima
       </Button>
-      <Modal show={!!editingUser} onHide={handleCloseEditForm}>
-        <Modal.Header closeButton>
-          <Modal.Title>Editar usuário</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h3>{editingUser?.email}</h3>
-          <Form onSubmit={handleSaveEditedUser}>
-            <Form.Group>
-              <Form.Label>Nome</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                aria-label="Nome"
-                name="name"
-                value={editingUser?.name}
-                onChange={handleEditUserFieldChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Data de nascimento</Form.Label>
-              <Form.Control
-                type="date"
-                required
-                name="birthDate"
-                aria-label="Data de nascimento"
-                value={editingUser?.birthDate}
-                onChange={handleEditUserFieldChange}
-              ></Form.Control>
-            </Form.Group>
-            <Button type="submit">Salvar</Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-      <Toast
-        onClose={() => {
-          setMessage("");
-        }}
-        delay={4000}
-        autohide
-        show={!!message}
-      >
-        <Toast.Header>{message}</Toast.Header>
-      </Toast>
+      {editingUser && (
+        <UserEditModal
+          show
+          email={editingUser?.email}
+          name={editingUser?.name}
+          birthDate={editingUser?.birthDate}
+          updateUser={handleUpdateUser}
+          handleCloseEditForm={handleCloseEditForm}
+        />
+      )}
     </>
   );
 };

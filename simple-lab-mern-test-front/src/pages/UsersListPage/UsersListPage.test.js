@@ -4,6 +4,13 @@ import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../utils/date-utils";
 
+const mockAddToast = jest.fn();
+jest.mock("../../components/ToastManager/ToastManager", () => ({
+  useToast: () => ({
+    addToast: mockAddToast,
+  }),
+}));
+
 describe("UsersList", () => {
   const usersPerPage = 5;
   const totalPages = 4;
@@ -198,9 +205,12 @@ describe("UsersList", () => {
       ...updatedFields,
     });
 
-    expect(
-      await screen.findByText(/usuário editado com sucesso/i)
-    ).toBeInTheDocument();
+    expect(mockAddToast).toHaveBeenCalledWith(
+      expect.stringMatching(/usuário editado/i),
+      expect.stringMatching(/usuário editado com sucesso/i),
+      "success",
+      expect.any(Number)
+    );
 
     const updatedUserItem = await screen.findByRole("listitem", {
       name: firstUser.email,
@@ -241,9 +251,12 @@ describe("UsersList", () => {
 
     await user.click(submitButton);
 
-    expect(
-      await screen.findByText(/usuário editado com sucesso/i)
-    ).toBeInTheDocument();
+    expect(mockAddToast).toHaveBeenCalledWith(
+      expect.stringMatching(/usuário editado/i),
+      expect.stringMatching(/usuário editado com sucesso/i),
+      "success",
+      expect.any(Number)
+    );
 
     const updatedSecondUserItem = await screen.findByRole("listitem", {
       name: secondUser.email,
