@@ -3,6 +3,7 @@ import UserService from "./user.service";
 import { jest } from "@jest/globals";
 import User from "../entity/user";
 import BirthDate from "../value-object/birth-date";
+import { toISODateOnlyString } from "../../utils/date-utils";
 
 describe("UserService tests", () => {
   const userRepository = {
@@ -13,6 +14,8 @@ describe("UserService tests", () => {
     get: jest.fn(),
   };
   const userService = new UserService(userRepository);
+
+  afterEach(() => jest.clearAllMocks());
 
   it("should get user by email", async () => {
     const user = new User(
@@ -78,11 +81,58 @@ describe("UserService tests", () => {
 
       expect(userRepository.get).toHaveBeenCalledWith(
         responses[page].pageInfo.page,
-        responses[page].pageInfo.pageSize
+        responses[page].pageInfo.pageSize,
+        expect.objectContaining({})
       );
 
       expect(response).toEqual(responses[page]);
     }
+  });
+
+  it("should get users with filters", async () => {
+    const pageSize = 10;
+    const filter = {
+      name: "James",
+      email: "test-email",
+      birthDate: {
+        before: "2001-01-01",
+        after: "2020-01-01",
+      },
+    };
+    const users = Array.from({ length: pageSize }, () => {
+      return new User(
+        `${filter.email}.${faker.internet.email()}`,
+        `${filter.name} ${faker.person.lastName()}`,
+        new BirthDate(faker.date.past())
+      );
+    });
+
+    const expectedResponse = {
+      pageInfo: { page: 1, totalPages: 1, pageSize },
+      users,
+      filter,
+    };
+
+    userRepository.get.mockResolvedValueOnce(expectedResponse);
+
+    const response = await userService.getUsers(
+      expectedResponse.pageInfo.page,
+      expectedResponse.pageInfo.pageSize,
+      {
+        name: filter.name,
+        email: filter.email,
+        birthDateBefore: filter.birthDate.before,
+        birthDateAfter: filter.birthDate.after,
+      }
+    );
+
+    expect(userRepository.get).toHaveBeenCalledWith(
+      expectedResponse.pageInfo.page,
+      expectedResponse.pageInfo.pageSize,
+      expectedResponse.filter
+    );
+
+    expect(response).toEqual(expectedResponse);
   });
 
   it("should throw an error when trying to create a user with repeated email", async () => {

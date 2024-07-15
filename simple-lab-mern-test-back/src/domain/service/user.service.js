@@ -9,11 +9,19 @@ export default class UserService {
     return await this.#userRepository.getByEmail(email);
   }
 
-  async getUsers(page, pageSize) {
-    page ?? 1;
-    pageSize ?? 50;
+  async getUsers(page, pageSize, filter) {
+    page = page ?? 1;
+    pageSize = pageSize ?? 50;
+    const { name, email, birthDateBefore, birthDateAfter } = filter || {};
 
-    return await this.#userRepository.get(page, pageSize);
+    return await this.#userRepository.get(page, pageSize, {
+      name: name,
+      email: email,
+      birthDate: {
+        before: birthDateBefore,
+        after: birthDateAfter,
+      },
+    });
   }
 
   async createUser(user) {

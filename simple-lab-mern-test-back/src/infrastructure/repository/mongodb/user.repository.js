@@ -35,10 +35,13 @@ export default class UserRepository {
     return new User(user.email, user.name, new BirthDate(user.birthDate));
   }
 
-  async get(page, pageSize) {
+  async get(page, pageSize, filter) {
     const $skip = pageSize * (page - 1);
+
+    const queryFilters = this.#buildQueryFilters(filter);
+
     const users = await UserModel.find(
-      {},
+      queryFilters,
       {},
       {
         skip: $skip,
@@ -48,8 +51,7 @@ export default class UserRepository {
       .lean()
       .exec();
 
-    const totalUsers = await UserModel.countDocuments().exec();
-    const totalPages = Math.ceil(totalUsers / pageSize);
+    const totalPages = await this.#calculateTotalPages(queryFilters, pageSize);
     return {
       users: users.map(
         (user) => new User(user.email, user.name, new BirthDate(user.birthDate))
@@ -59,6 +61,47 @@ export default class UserRepository {
         pageSize,
         totalPages,
       },
+      filter,
     };
+  }
+
+  async #calculateTotalPages(queryFilters, pageSize) {
+    const totalUsersWithFilter = await UserModel.find(queryFilters)
+      .countDocuments()
+      .exec();
+    if (totalUsersWithFilter === 0) {
+      return 0;
+    }
+    const totalPages =
+      totalUsersWithFilter > pageSize
+        ? Math.ceil(totalUsersWithFilter / pageSize)
+        : 1;
+    return totalPages;
+  }
+
+  #buildQueryFilters(filter) {
+    const queryFilters = {};
+    if (filter?.name) {
+      queryFilters.name = { $regex: filter.name, $options: "i" };
+    }
+    if (filter?.email) {
+      queryFilters.email = { $regex: filter.email, $options: "i" };
+    }
+    if (filter?.birthDate) {
+      const birthDateFilter = {};
+
+      if (filter.birthDate.before) {
+        birthDateFilter.$lte = new Date(filter.birthDate.before);
+      }
+
+      if (filter.birthDate.after) {
+        birthDateFilter.$gte = new Date(filter.birthDate.after);
+      }
+
+      if (Object.keys(birthDateFilter).length > 0) {
+        queryFilters.birthDate = birthDateFilter;
+      }
+    }
+    return queryFilters;
   }
 }
