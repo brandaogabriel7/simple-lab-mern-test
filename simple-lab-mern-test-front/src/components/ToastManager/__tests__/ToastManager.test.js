@@ -4,7 +4,7 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ToastProvider, useToast } from "./ToastManager";
+import { ToastProvider, useToast } from "../ToastManager";
 
 describe("toast manager tests", () => {
   // FLAKY TEST: this test might fail if the delay is too short

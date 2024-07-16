@@ -1,11 +1,11 @@
 import { render, screen, within } from "@testing-library/react";
-import UsersListPage from "./UsersListPage";
+import UsersListPage from "../UsersListPage";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
-import { toISODateOnlyString } from "../../utils/date-utils";
-import { useToast } from "../../components/ToastManager/ToastManager";
+import { toISODateOnlyString } from "../../../utils/date-utils";
+import { useToast } from "../../../components/ToastManager/ToastManager";
 
-jest.mock("../../components/ToastManager/ToastManager");
+jest.mock("../../../components/ToastManager/ToastManager");
 
 describe("UsersList editing tests", () => {
   const usersPerPage = 5;

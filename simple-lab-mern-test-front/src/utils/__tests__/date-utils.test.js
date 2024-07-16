@@ -1,4 +1,4 @@
-import { toISODateOnlyString } from "./date-utils";
+import { toISODateOnlyString } from "../date-utils";
 
 describe("date-utils tests", () => {
   it.each([
