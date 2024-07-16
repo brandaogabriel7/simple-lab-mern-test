@@ -3,19 +3,16 @@ import UsersListPage from "./UsersListPage";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../utils/date-utils";
+import { useToast } from "../../components/ToastManager/ToastManager";
 
-const mockAddToast = jest.fn();
-jest.mock("../../components/ToastManager/ToastManager", () => ({
-  useToast: () => ({
-    addToast: mockAddToast,
-  }),
-}));
+jest.mock("../../components/ToastManager/ToastManager");
 
 describe("UsersList editing tests", () => {
   const usersPerPage = 5;
   const totalPages = 4;
   let usersResponses;
   let getUsers;
+  const { addToast } = useToast();
 
   beforeEach(() => {
     usersResponses = Array.from({ length: totalPages }, (_, index) => {
@@ -89,7 +86,7 @@ describe("UsersList editing tests", () => {
       ...updatedFields,
     });
 
-    expect(mockAddToast).toHaveBeenCalledWith(
+    expect(addToast).toHaveBeenCalledWith(
       expect.stringMatching(/usuário editado/i),
       expect.stringMatching(/usuário editado com sucesso/i),
       "success",
@@ -135,7 +132,7 @@ describe("UsersList editing tests", () => {
 
     await user.click(submitButton);
 
-    expect(mockAddToast).toHaveBeenCalledWith(
+    expect(addToast).toHaveBeenCalledWith(
       expect.stringMatching(/usuário editado/i),
       expect.stringMatching(/usuário editado com sucesso/i),
       "success",

@@ -3,15 +3,12 @@ import UserSignupPage from "./UserSignupPage";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../utils/date-utils";
+import { useToast } from "../../components/ToastManager/ToastManager";
 
-const mockAddToast = jest.fn();
-jest.mock("../../components/ToastManager/ToastManager", () => ({
-  useToast: () => ({
-    addToast: mockAddToast,
-  }),
-}));
+jest.mock("../../components/ToastManager/ToastManager");
 
 describe("User sign up page tests", () => {
+  const { addToast } = useToast();
   beforeEach(() => jest.clearAllMocks());
 
   it("should display signup form", () => {
@@ -49,7 +46,7 @@ describe("User sign up page tests", () => {
     await user.click(submitButton);
 
     expect(createUser).toHaveBeenCalledWith({ email, name, birthDate });
-    expect(mockAddToast).toHaveBeenCalledWith(
+    expect(addToast).toHaveBeenCalledWith(
       expect.stringMatching(/usuário cadastrado/i),
       expect.stringMatching(/usuário cadastrado com sucesso/i),
       "success",
@@ -71,7 +68,7 @@ describe("User sign up page tests", () => {
 
     await user.click(submitButton);
 
-    expect(mockAddToast).toHaveBeenCalledWith(
+    expect(addToast).toHaveBeenCalledWith(
       expect.stringMatching(/erro ao cadastrar usuário/i),
       expect.stringMatching(/não foi possível cadastrar o usuário/i),
       "danger",

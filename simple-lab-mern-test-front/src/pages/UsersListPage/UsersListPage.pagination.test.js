@@ -4,12 +4,7 @@ import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../utils/date-utils";
 
-const mockAddToast = jest.fn();
-jest.mock("../../components/ToastManager/ToastManager", () => ({
-  useToast: () => ({
-    addToast: mockAddToast,
-  }),
-}));
+jest.mock("../../components/ToastManager/ToastManager");
 
 describe("UsersList pagination tests", () => {
   const usersPerPage = 5;
