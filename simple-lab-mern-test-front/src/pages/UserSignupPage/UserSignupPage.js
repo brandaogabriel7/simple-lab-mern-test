@@ -20,7 +20,7 @@ const UserSignup = ({ createUser }) => {
         "success",
         toastDelay
       );
-    } catch (error) {
+    } catch (_) {
       addToast(
         "Erro ao cadastrar usuário",
         "Não foi possível cadastrar o usuário",

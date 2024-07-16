@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Button, ListGroup } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useToast } from "../../components/ToastManager/ToastManager";
 import UserEditModal from "./components/UserEditModal/UserEditModal";
+import UsersList from "./components/UsersList/UsersList";
 
 const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
   const { addToast } = useToast();
@@ -17,7 +18,7 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
         setUsers(response.data);
         setTotalPages(response.totalPages);
       })
-      .catch((e) => {
+      .catch((_) => {
         addToast(
           "Erro ao buscar usuários",
           "Não foi possível buscar os usuários",
@@ -74,25 +75,10 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
   return (
     <>
       <h2>Usuários</h2>
-      <ListGroup>
-        {users?.map((user) => (
-          <ListGroup.Item
-            role="listitem"
-            key={user.email}
-            aria-label={user.email}
-          >
-            <p>
-              {user.email} | {user.name} - {user.birthDate}
-            </p>
-            <Button
-              name="editar"
-              onClick={() => handleOpenEditUserDialog(user)}
-            >
-              Editar
-            </Button>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      <UsersList
+        users={users}
+        handleOpenEditUserDialog={handleOpenEditUserDialog}
+      />
       <Button
         name="página anterior"
         disabled={page <= 1}
