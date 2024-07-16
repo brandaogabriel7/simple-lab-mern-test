@@ -27,7 +27,7 @@ export const ToastProvider = ({ children }) => {
             }
             delay={toast.delay || 3000}
             autohide
-            variant={toast.variant || "error"}
+            variant={toast.variant || "info"}
             show
           >
             <Toast.Header>{toast.title}</Toast.Header>

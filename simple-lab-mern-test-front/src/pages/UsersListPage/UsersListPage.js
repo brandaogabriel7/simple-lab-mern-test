@@ -21,7 +21,7 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
         addToast(
           "Erro ao buscar usuários",
           "Não foi possível buscar os usuários",
-          "error",
+          "danger",
           3000
         );
       });
@@ -65,7 +65,7 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
       addToast(
         "Erro ao editar usuário",
         "Não foi possível editar o usuário",
-        "error",
+        "danger",
         3000
       );
     }

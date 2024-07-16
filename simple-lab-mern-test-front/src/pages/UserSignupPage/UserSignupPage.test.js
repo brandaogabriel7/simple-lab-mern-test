@@ -74,7 +74,7 @@ describe("User sign up page tests", () => {
     expect(mockAddToast).toHaveBeenCalledWith(
       expect.stringMatching(/erro ao cadastrar usuário/i),
       expect.stringMatching(/não foi possível cadastrar o usuário/i),
-      "error",
+      "danger",
       expect.any(Number)
     );
   });

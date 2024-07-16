@@ -24,7 +24,7 @@ const UserSignup = ({ createUser }) => {
       addToast(
         "Erro ao cadastrar usuário",
         "Não foi possível cadastrar o usuário",
-        "error",
+        "danger",
         toastDelay
       );
     } finally {
