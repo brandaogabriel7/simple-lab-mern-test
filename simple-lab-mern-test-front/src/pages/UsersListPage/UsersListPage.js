@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useToast } from "../../components/ToastManager/ToastManager";
 import UserEditModal from "./components/UserEditModal/UserEditModal";
 import UsersList from "./components/UsersList/UsersList";
+import PaginationControl from "../../components/PaginationControl/PaginationControl";
 
 const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
   const { addToast } = useToast();
@@ -79,21 +79,12 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
         users={users}
         handleOpenEditUserDialog={handleOpenEditUserDialog}
       />
-      <Button
-        name="página anterior"
-        disabled={page <= 1}
-        onClick={handlePreviousPage}
-      >
-        Anterior
-      </Button>
-      <p>Página {page}</p>
-      <Button
-        name="próxima página"
-        disabled={page === totalPages}
-        onClick={handleNextPage}
-      >
-        Próxima
-      </Button>
+      <PaginationControl
+        page={page}
+        totalPages={totalPages}
+        handlePreviousPage={handlePreviousPage}
+        handleNextPage={handleNextPage}
+      />
       {editingUser && (
         <UserEditModal
           show
