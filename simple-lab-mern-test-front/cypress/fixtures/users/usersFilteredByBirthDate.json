@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "email": "test@test.com",
+      "name": "João Silva",
+      "birthDate": "1997-04-20"
+    },
+    {
+      "email": "test1@test.com",
+      "name": "Giovanna Guimarães",
+      "birthDate": "1992-07-16"
+    },
+    {
+      "email": "test2@test.com",
+      "name": "Guilherme da Costa",
+      "birthDate": "1995-12-30"
+    },
+    {
+      "email": "test3@test.com",
+      "name": "Maria Aparecida",
+      "birthDate": "1993-07-09"
+    },
+    {
+      "email": "test4@test.com",
+      "name": "Verônica Ribeiro",
+      "birthDate": "1993-11-27"
+    }
+  ],
+  "page": 1,
+  "totalPages": 1,
+  "pageSize": 10,
+  "filter": {
+    "birthDateAfter": "1990-01-01",
+    "birthDateBefore": "1997-04-25"
+  }
+}

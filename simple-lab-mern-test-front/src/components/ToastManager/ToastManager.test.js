@@ -19,7 +19,7 @@ describe("toast manager tests", () => {
       // this should be a small enough delay for the test assertions to work but not take too long to run the test
       // for some reason using fake timers did not work well for these test cases.
       // you can increase this value if the test starts to fail by time out but try not to increase too much
-      const toastDelay = 10;
+      const toastDelay = 15;
 
       const user = userEvent.setup();
 

@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "email": "test-email@test.com",
+      "name": "John da Silva",
+      "birthDate": "1997-04-25"
+    },
+    {
+      "email": "test-email1@test.com",
+      "name": "John Smith",
+      "birthDate": "1992-07-16"
+    },
+    {
+      "email": "test-email2@test.com",
+      "name": "John Doe",
+      "birthDate": "1995-12-30"
+    },
+    {
+      "email": "test-email3@test.com",
+      "name": "John Guilherme Brandão",
+      "birthDate": "1993-07-09"
+    }
+  ],
+  "page": 1,
+  "pageSize": 10,
+  "totalPages": 0,
+  "filter": {
+    "name": "John",
+    "email": "test-email",
+    "birthDateAfter": "1990-01-01",
+    "birthDateBefore": "2000-03-21"
+  }
+}

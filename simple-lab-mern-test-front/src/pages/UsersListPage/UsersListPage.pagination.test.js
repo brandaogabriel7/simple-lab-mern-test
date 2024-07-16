@@ -43,7 +43,11 @@ describe("UsersList pagination tests", () => {
       />
     );
 
-    expect(getUsers).toHaveBeenCalledWith({ page: 1, pageSize: usersPerPage });
+    expect(getUsers).toHaveBeenCalledWith({
+      page: 1,
+      pageSize: usersPerPage,
+      filter: expect.objectContaining({}),
+    });
 
     for (let user of usersResponse.data) {
       const userItem = await screen.findByRole("listitem", {
@@ -72,7 +76,11 @@ describe("UsersList pagination tests", () => {
     const previousButton = screen.getByRole("button", { name: /anterior/i });
     const nextButton = screen.getByRole("button", { name: /próxima/i });
 
-    expect(getUsers).toHaveBeenCalledWith({ page: 1, pageSize: usersPerPage });
+    expect(getUsers).toHaveBeenCalledWith({
+      page: 1,
+      pageSize: usersPerPage,
+      filter: expect.objectContaining({}),
+    });
 
     for (let user of usersResponses[0].data) {
       const userItem = await screen.findByRole("listitem", {
@@ -89,7 +97,11 @@ describe("UsersList pagination tests", () => {
     // test second page
     await user.click(nextButton);
 
-    expect(getUsers).toHaveBeenCalledWith({ page: 2, pageSize: usersPerPage });
+    expect(getUsers).toHaveBeenCalledWith({
+      page: 2,
+      pageSize: usersPerPage,
+      filter: expect.objectContaining({}),
+    });
 
     for (let user of usersResponses[1].data) {
       const userItem = await screen.findByRole("listitem", {
@@ -106,7 +118,11 @@ describe("UsersList pagination tests", () => {
     // test going back to first page
     await user.click(previousButton);
 
-    expect(getUsers).toHaveBeenCalledWith({ page: 1, pageSize: usersPerPage });
+    expect(getUsers).toHaveBeenCalledWith({
+      page: 1,
+      pageSize: usersPerPage,
+      filter: expect.objectContaining({}),
+    });
 
     for (let user of usersResponses[0].data) {
       const userItem = await screen.findByRole("listitem", {
@@ -139,6 +155,7 @@ describe("UsersList pagination tests", () => {
       expect(getUsers).toHaveBeenCalledWith({
         page: i + 1,
         pageSize: usersPerPage,
+        filter: expect.objectContaining({}),
       });
       expect(
         await screen.findByText(new RegExp(`página ${i + 1}`, "i"))

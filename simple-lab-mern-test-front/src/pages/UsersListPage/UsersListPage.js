@@ -4,6 +4,7 @@ import { useToast } from "../../components/ToastManager/ToastManager";
 import UserEditModal from "./components/UserEditModal/UserEditModal";
 import UsersList from "./components/UsersList/UsersList";
 import PaginationControl from "../../components/PaginationControl/PaginationControl";
+import UsersListFilters from "./components/UsersListFilters/UsersListFilters";
 
 const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
   const { addToast } = useToast();
@@ -11,9 +12,10 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [editingUser, setEditingUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [filter, setFilter] = useState({});
 
   useEffect(() => {
-    getUsers({ page, pageSize: usersPerPage })
+    getUsers({ page, pageSize: usersPerPage, filter })
       .then((response) => {
         setUsers(response.data);
         setTotalPages(response.totalPages);
@@ -26,7 +28,7 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
           3000
         );
       });
-  }, [page, getUsers, usersPerPage, addToast]);
+  }, [page, getUsers, usersPerPage, addToast, filter]);
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -75,6 +77,7 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
   return (
     <>
       <h2>Usuários</h2>
+      <UsersListFilters setFilter={setFilter} filter={filter} />
       <UsersList
         users={users}
         handleOpenEditUserDialog={handleOpenEditUserDialog}

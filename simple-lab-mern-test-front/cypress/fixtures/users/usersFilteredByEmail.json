@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "email": "test-email@test.com",
+      "name": "John John",
+      "birthDate": "1997-04-25"
+    },
+    {
+      "email": "test-email-1@test.com",
+      "name": "Allastor January",
+      "birthDate": "1992-07-16"
+    },
+    {
+      "email": "test-email-2@test.com",
+      "name": "Guilherme da Costa",
+      "birthDate": "1995-12-30"
+    },
+    {
+      "email": "test-email-4@test.com",
+      "name": "John Doe",
+      "birthDate": "1990-01-01"
+    },
+    {
+      "email": "test-email-5@test.com",
+      "name": "James Doe",
+      "birthDate": "1997-02-03"
+    },
+    {
+      "email": "test-email-6@test.com",
+      "name": "Jane da Silva",
+      "birthDate": "1992-07-16"
+    }
+  ],
+  "page": 1,
+  "totalPages": 1,
+  "pageSize": 10,
+  "filter": {
+    "email": "test-email"
+  }
+}

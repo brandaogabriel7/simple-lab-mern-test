@@ -1,0 +1,30 @@
+{
+  "data": [
+    {
+      "email": "test@test.com",
+      "name": "John 1",
+      "birthDate": "1997-04-25"
+    },
+    {
+      "email": "test2@test.com",
+      "name": "John 2",
+      "birthDate": "1992-07-16"
+    },
+    {
+      "email": "test3@test.com",
+      "name": "John 3",
+      "birthDate": "1995-12-30"
+    },
+    {
+      "email": "test4@test.com",
+      "name": "John 4",
+      "birthDate": "1990-01-01"
+    }
+  ],
+  "page": 1,
+  "totalPages": 0,
+  "pageSize": 10,
+  "filter": {
+    "name": "John"
+  }
+}
