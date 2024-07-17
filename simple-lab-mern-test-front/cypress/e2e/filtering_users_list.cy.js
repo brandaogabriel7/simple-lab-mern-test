@@ -34,7 +34,7 @@ describe("Filtering users list", function () {
       }
     ).as("filterRequest");
 
-    cy.visit("/");
+    cy.visit("/users");
     cy.findByLabelText(/nome/i).as("nameFilterInput");
     cy.findByLabelText(/email/i).as("emailFilterInput");
     cy.findByLabelText(/nasceu depois de/i).as("birthDateAfterFilterInput");

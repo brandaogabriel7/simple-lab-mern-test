@@ -2,7 +2,7 @@ describe("Editing a user", () => {
   beforeEach(function () {
     cy.setupUsersRequest();
 
-    cy.visit("/");
+    cy.visit("/users");
 
     cy.intercept("PUT", `${Cypress.config().apiUrl}/api/users`, {
       statusCode: 200,

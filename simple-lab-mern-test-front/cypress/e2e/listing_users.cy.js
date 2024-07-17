@@ -2,7 +2,7 @@ describe("Listing users", () => {
   beforeEach(function () {
     cy.setupUsersRequest();
 
-    cy.visit("/");
+    cy.visit("/users");
 
     cy.findByRole("button", {
       name: /anterior/i,

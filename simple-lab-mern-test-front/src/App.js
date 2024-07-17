@@ -8,6 +8,7 @@ import {
 import UsersListPage from "./pages/UsersListPage/UsersListPage";
 import config from "./config/config";
 import { ToastProvider } from "./components/ToastManager/ToastManager";
+import Header from "./components/Header/Header";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
           path="/"
           element={
             <>
+              <Header />
               <ToastProvider>
                 <Outlet />
               </ToastProvider>
@@ -68,7 +70,7 @@ function App() {
             element={<UserSignupPage createUser={createUser} />}
           />
           <Route
-            path="/"
+            path="/users"
             element={
               <UsersListPage
                 getUsers={getUsers}
@@ -77,6 +79,7 @@ function App() {
               />
             }
           />
+          <Route path="/" element={<h1>Página inicial</h1>} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
