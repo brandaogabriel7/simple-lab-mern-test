@@ -76,7 +76,7 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
 
   return (
     <>
-      <h2>Usuários</h2>
+      <h1 className="text-dark">Usuários</h1>
       <UsersListFilters setFilter={setFilter} filter={filter} />
       <UsersList
         users={users}

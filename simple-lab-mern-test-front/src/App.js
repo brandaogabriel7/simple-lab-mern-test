@@ -1,15 +1,9 @@
 import UserSignupPage from "./pages/UserSignupPage/UserSignupPage";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Outlet,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UsersListPage from "./pages/UsersListPage/UsersListPage";
 import config from "./config/config";
-import { ToastProvider } from "./components/ToastManager/ToastManager";
-import Header from "./components/Header/Header";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import Layout from "./components/Layout/Layout";
 
 function App() {
   const { apiUrl, usersPerPage } = config;
@@ -54,17 +48,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Header />
-              <ToastProvider>
-                <Outlet />
-              </ToastProvider>
-            </>
-          }
-        >
+        <Route path="/" element={<Layout />}>
           <Route
             path="/signup"
             element={<UserSignupPage createUser={createUser} />}
