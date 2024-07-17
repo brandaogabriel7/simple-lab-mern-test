@@ -8,6 +8,7 @@ import {
 import UsersListPage from "./pages/UsersListPage/UsersListPage";
 import config from "./config/config";
 import { ToastProvider } from "./components/ToastManager/ToastManager";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 function App() {
   const { apiUrl, usersPerPage } = config;
@@ -76,6 +77,7 @@ function App() {
               />
             }
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </Router>
