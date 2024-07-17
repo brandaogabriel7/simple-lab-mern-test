@@ -14,7 +14,7 @@ winston.loggers.add("default", {
 });
 
 winston.loggers.add("http-requests", {
-  level: "http",
+  level: process.env.LOG_LEVEL || "info",
   format: combine(timestamp({ format: "YYYY-MM-DD HH:mm:ss.SSS" }), json()),
   defaultMeta,
   transports: [new winston.transports.Console()],

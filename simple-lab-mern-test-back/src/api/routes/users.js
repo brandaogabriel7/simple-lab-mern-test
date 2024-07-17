@@ -12,14 +12,24 @@ import {
 const router = express.Router();
 const userService = new UserService(new UserRepository());
 
-router.get("/:email", (req, res) => getUserByEmail(userService, req, res));
+router.get("/:email", (req, res, next) =>
+  getUserByEmail(userService, req, res).catch(next)
+);
 
-router.get("/", (req, res) => getUsers(userService, req, res));
+router.get("/", (req, res, next) =>
+  getUsers(userService, req, res).catch(next)
+);
 
-router.post("/", (req, res) => createUser(userService, req, res));
+router.post("/", (req, res, next) =>
+  createUser(userService, req, res).catch(next)
+);
 
-router.delete("/:email", (req, res) => deleteUser(userService, req, res));
+router.delete("/:email", (req, res, next) =>
+  deleteUser(userService, req, res).catch(next)
+);
 
-router.put("/", (req, res) => updateUser(userService, req, res));
+router.put("/", (req, res, next) =>
+  updateUser(userService, req, res).catch(next)
+);
 
 export default router;
