@@ -1,4 +1,3 @@
-import { Router } from "express";
 import User from "../../domain/entity/user.js";
 import BirthDate from "../../domain/value-object/birth-date.js";
 
