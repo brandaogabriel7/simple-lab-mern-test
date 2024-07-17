@@ -1,12 +1,16 @@
-import { Button, Form } from "react-bootstrap";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
+import { useState } from "react";
 import { useToast } from "../../components/ToastManager/ToastManager";
 
 const toastDelay = 3000;
 const UserSignup = ({ createUser }) => {
+  const [loading, setLoading] = useState(false);
   const { addToast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     const formData = new FormData(e.target);
 
     const user = Object.fromEntries(formData);
@@ -29,11 +33,12 @@ const UserSignup = ({ createUser }) => {
       );
     } finally {
       e.target.reset();
+      setLoading(false);
     }
   };
 
   return (
-    <>
+    <Container as="main" fluid="sm" className="pt-4">
       <Form onSubmit={handleSubmit}>
         <h2>Cadastrar novo usuário</h2>
         <Form.Group>
@@ -53,9 +58,11 @@ const UserSignup = ({ createUser }) => {
             aria-label="Data de nascimento"
           ></Form.Control>
         </Form.Group>
-        <Button type="submit">Cadastrar</Button>
+        <Button className="mt-2" type="submit">
+          {loading ? <Spinner animation="border" size="sm" /> : "Cadastrar"}
+        </Button>
       </Form>
-    </>
+    </Container>
   );
 };
 

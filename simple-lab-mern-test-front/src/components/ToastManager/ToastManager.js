@@ -16,7 +16,7 @@ export const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <ToastContainer position="bottom-start" className="p-3">
+      <ToastContainer className="fixed-bottom">
         {toasts.map((toast, index) => (
           <Toast
             key={index}
@@ -30,7 +30,9 @@ export const ToastProvider = ({ children }) => {
             variant={toast.variant || "info"}
             show
           >
-            <Toast.Header>{toast.title}</Toast.Header>
+            <Toast.Header className={`bg-${toast.variant || "info"}`}>
+              <strong className="me-auto text-light">{toast.title}</strong>
+            </Toast.Header>
             <Toast.Body>{toast.message}</Toast.Body>
           </Toast>
         ))}
