@@ -43,6 +43,8 @@ Já no front-end, você precisa passar a variável `REACT_APP_API_URL`, contendo
 
 ## Endpoints da API
 
+Aqui está a descrição dos endpoints da API. Também deixei uma [Postman collection](./simple-lab-mern-test-back/postman/SimpleLab%20MERN%20Test.postman_collection.json) pronta pra facilitar os testes.
+
 ### Criar usuário
 
 `POST /api/users` -> Cadastra um novo usuário.
