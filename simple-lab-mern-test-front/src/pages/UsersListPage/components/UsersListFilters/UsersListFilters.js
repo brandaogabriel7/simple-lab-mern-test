@@ -1,18 +1,14 @@
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
-const UsersListFilters = ({ filter, setFilter }) => {
-  const handleChangeFilter = (e) => {
-    setFilter((prevFilter) => ({
-      ...prevFilter,
-      [e.target.name]: e.target.value,
-    }));
-  };
+const UsersListFilters = ({ setFilter }) => {
   return (
     <Form
       onSubmit={(e) => {
         e.preventDefault();
+        const formData = new FormData(e.target);
+        const newFilter = Object.fromEntries(formData.entries());
+        setFilter(newFilter);
       }}
-      as={Container}
       className="border border-primary rounded p-3"
     >
       <h4>Filtros</h4>
@@ -23,8 +19,7 @@ const UsersListFilters = ({ filter, setFilter }) => {
             name="email"
             type="text"
             aria-label="Email"
-            value={filter.email || ""}
-            onChange={handleChangeFilter}
+            defaultValue=""
           />
         </Form.Group>
         <Form.Group as={Col}>
@@ -33,8 +28,7 @@ const UsersListFilters = ({ filter, setFilter }) => {
             name="name"
             type="text"
             aria-label="Nome"
-            value={filter.name || ""}
-            onChange={handleChangeFilter}
+            defaultValue=""
           />
         </Form.Group>
         <Form.Group as={Col}>
@@ -43,8 +37,7 @@ const UsersListFilters = ({ filter, setFilter }) => {
             name="birthDateAfter"
             type="date"
             aria-label="Nasceu depois de"
-            value={filter.birthDateAfter || ""}
-            onChange={handleChangeFilter}
+            defaultValue=""
           />
         </Form.Group>
         <Form.Group as={Col}>
@@ -53,11 +46,13 @@ const UsersListFilters = ({ filter, setFilter }) => {
             name="birthDateBefore"
             type="date"
             aria-label="Nasceu antes de"
-            value={filter.birthDateBefore || ""}
-            onChange={handleChangeFilter}
+            defaultValue=""
           />
         </Form.Group>
       </Row>
+      <Button className="mt-2" type="submit" aria-label="Filtrar">
+        Filtrar
+      </Button>
     </Form>
   );
 };

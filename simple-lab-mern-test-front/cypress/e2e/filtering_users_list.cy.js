@@ -39,6 +39,7 @@ describe("Filtering users list", function () {
     cy.findByLabelText(/email/i).as("emailFilterInput");
     cy.findByLabelText(/nasceu depois de/i).as("birthDateAfterFilterInput");
     cy.findByLabelText(/nasceu antes de/i).as("birthDateBeforeFilterInput");
+    cy.findByRole("button", { name: /filtrar/i }).as("filterButton");
   });
   it("should filter users by name", function () {
     cy.get("@nameFilterInput").should("have.value", "");
@@ -47,6 +48,7 @@ describe("Filtering users list", function () {
     cy.get("@birthDateBeforeFilterInput").should("have.value", "");
 
     cy.get("@nameFilterInput").type(usersFilteredByName.filter.name);
+    cy.get("@filterButton").click();
 
     cy.wait("@filterRequest");
 
@@ -69,6 +71,7 @@ describe("Filtering users list", function () {
     cy.get("@birthDateBeforeFilterInput").should("have.value", "");
 
     cy.get("@emailFilterInput").type(usersFilteredByEmail.filter.email);
+    cy.get("@filterButton").click();
 
     cy.wait("@filterRequest");
 
@@ -95,6 +98,7 @@ describe("Filtering users list", function () {
     cy.get("@birthDateBeforeFilterInput").type(
       usersFilteredByBirthDate.filter.birthDateBefore
     );
+    cy.get("@filterButton").click();
 
     cy.wait("@filterRequest");
 
@@ -129,6 +133,8 @@ describe("Filtering users list", function () {
     cy.get("@birthDateBeforeFilterInput").type(
       usersFilteredByAllFields.filter.birthDateBefore
     );
+
+    cy.get("@filterButton").click();
 
     cy.wait("@filterRequest");
 

@@ -10,16 +10,8 @@ const pageSize = 5;
 
 const getUsersMock = (expectedResponse, responseBeforeFilter) => {
   const getUsers = jest.fn();
-  getUsers.mockImplementation(({ page, pageSize, filter }) => {
-    const { name, email, birthDateAfter, birthDateBefore } = filter;
-    if (
-      page === expectedResponse.page &&
-      pageSize === expectedResponse.pageSize &&
-      name === expectedResponse.filter.name &&
-      email === expectedResponse.filter.email &&
-      birthDateAfter === expectedResponse.filter.birthDateAfter &&
-      birthDateBefore === expectedResponse.filter.birthDateBefore
-    ) {
+  getUsers.mockImplementation(({ filter }) => {
+    if (Object.keys(filter).length !== 0) {
       return Promise.resolve(expectedResponse);
     }
     return Promise.resolve(responseBeforeFilter);
@@ -87,12 +79,15 @@ describe("UsersList filtering tests", () => {
     const emailInput = screen.getByLabelText(/email/i);
     await user.type(emailInput, expectedResponse.filter.email);
 
+    const filterButton = screen.getByRole("button", { name: /filtrar/i });
+    await user.click(filterButton);
+
     expect(getUsers).toHaveBeenCalledWith({
       page: 1,
       pageSize: pageSize,
-      filter: {
+      filter: expect.objectContaining({
         email: emailFilter,
-      },
+      }),
     });
     for (let user of expectedResponse.data) {
       const userItem = await screen.findByRole("listitem", {
@@ -150,13 +145,15 @@ describe("UsersList filtering tests", () => {
 
     const nameInput = screen.getByLabelText(/nome/i);
     await user.type(nameInput, expectedResponse.filter.name);
+    const filterButton = screen.getByRole("button", { name: /filtrar/i });
+    await user.click(filterButton);
 
     expect(getUsers).toHaveBeenCalledWith({
       page: 1,
       pageSize: pageSize,
-      filter: {
+      filter: expect.objectContaining({
         name: nameFilter,
-      },
+      }),
     });
     for (let user of expectedResponse.data) {
       const userItem = await screen.findByRole("listitem", {
@@ -229,14 +226,16 @@ describe("UsersList filtering tests", () => {
       birthDateBeforeInput,
       expectedResponse.filter.birthDateBefore
     );
+    const filterButton = screen.getByRole("button", { name: /filtrar/i });
+    await user.click(filterButton);
 
     expect(getUsers).toHaveBeenCalledWith({
       page: 1,
       pageSize: pageSize,
-      filter: {
+      filter: expect.objectContaining({
         birthDateAfter: birthDateAfterFilter,
         birthDateBefore: birthDateBeforeFilter,
-      },
+      }),
     });
     for (let user of expectedResponse.data) {
       const userItem = await screen.findByRole("listitem", {
@@ -317,16 +316,18 @@ describe("UsersList filtering tests", () => {
       birthDateBeforeInput,
       expectedResponse.filter.birthDateBefore
     );
+    const filterButton = screen.getByRole("button", { name: /filtrar/i });
+    await user.click(filterButton);
 
     expect(getUsers).toHaveBeenCalledWith({
       page: 1,
       pageSize: pageSize,
-      filter: {
+      filter: expect.objectContaining({
         name: nameFilter,
         email: emailFilter,
         birthDateAfter: birthDateAfterFilter,
         birthDateBefore: birthDateBeforeFilter,
-      },
+      }),
     });
     for (let user of expectedResponse.data) {
       const userItem = await screen.findByRole("listitem", {

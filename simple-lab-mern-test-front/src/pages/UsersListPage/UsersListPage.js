@@ -77,7 +77,7 @@ const UsersListPage = ({ getUsers, updateUser, usersPerPage }) => {
   return (
     <>
       <h1 className="text-dark">Usuários</h1>
-      <UsersListFilters setFilter={setFilter} filter={filter} />
+      <UsersListFilters setFilter={setFilter} />
       <UsersList
         users={users}
         handleOpenEditUserDialog={handleOpenEditUserDialog}
