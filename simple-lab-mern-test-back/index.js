@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { getLogger } from "./src/infrastructure/logger/winston/logger.js";
 
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 const logger = getLogger("default");
 
