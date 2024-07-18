@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 
 const ToastContext = createContext();
@@ -6,12 +6,12 @@ const ToastContext = createContext();
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
-  const addToast = (title, message, variant, delay) => {
+  const addToast = useCallback((title, message, variant, delay) => {
     setToasts((prevToasts) => [
       ...prevToasts,
       { title, message, variant, delay },
     ]);
-  };
+  }, []);
 
   return (
     <ToastContext.Provider value={{ addToast }}>
