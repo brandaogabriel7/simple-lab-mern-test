@@ -2,75 +2,152 @@
 
 Esse projeto é parte de um processo seletivo pra SimpleLab. O projeto consiste em uma aplicação de cadastro de usuários desenvolvido com stack MERN.
 
-## Implementação do servidor
+## Stack
 
-O servidor é uma API desenvolvida com Node.js e Express. Essa API se comunica com o banco de dados para executar as operações com os usuários. Eu também adicionei o Jest para trabalhar com testes automatizados.
+Como mencionado acima, esse projeto foi desenvolvido com a stack `MERN`(MongoDB, Express.js, React.js e Node.js). Além disso, eu usei Docker e Docker compose pra facilitar a execução da aplicação.
 
-## Modelar domínio
+### Ferramentas e libs usadas
 
-O domínio é simples e gira em torno do usuário. Então, meu primeiro passo foi criar uma entidade para implementar as regras de negócio do usuário.
+Eu usei o mínimo possível de bibliotecas e ferramentas além das recomendadas nas instruções do processo seletivo (`react-router-dom`, `react-redux`, `bootstrap`, `mongoose` e `Faker.js`) mas decidi utilizar outras pra facilitar algumas partes.
 
-1. Usuário possui 3 campos, todos obrigatórios: Nome, Email e Data de Nascimento
-2. O email deve ter um formato válido (isso não tava nos requisitos mas eu decidi validar)
-3. Impedir cadastro de usuários com email já existente no sistema
-   - Por conta dessa regra, decidi usar o email como identificador da entidade Usuário. Por causa disso, email não vai ser um campo editável da entidade.
-4. Permitir edição de usuários já cadastrados
-   - Os campos de nome e data de nascimento podem ser editados. O email não pode porque vai ser usado como identificador.
-5. Impedir cadastro de usuários com data de nascimento no futuro.
+Pra ajudar com os testes automatizados eu usei as seguintes ferramentas e libs:
 
-As outras regras de negócio tem mais relação com o banco de dados e o frontend, o que não é o foco nessa etapa. Com base nessas regras de negócio, eu criei a entidade `User` e o objeto de valor `BirthDate` (responsável por validar a data de nascimento).
+- `mongodb-memory-server`: rodar um mongodb em memória pra testes de integração
+- `supertest`: facilitar o teste de integração da api
+- `cypress`: fazer os testes ponta a ponta do front
 
-## Subir banco de dados e back-end com docker-compose
+Usei as bibliotecas `winston` e `morgan` pra implementar os logs da api.
 
-Depois de implementar as regras de negócio acima, meu foco foi criar um banco de dados de desenvolvimento pra rodar e conectar com o back-end. Pra facilitar todo o processo de subir o back-end, o front-end e o banco de dados, eu decidi usar `docker-compose`. Não é a forma como subiria a aplicação em produção mas é uma boa alternativa para desenvolvimento local.
+E usei também as bibliotecas `react-router-bootstrap` e `react-bootstrap` para facilitar a integração do `React` com o `Bootstrap`.
 
-> Eu usei o [Dockerize](https://github.com/jwilder/dockerize) pra garantir que o back-end só vai subir quando o db estiver disponível e evitar problemas na inicialização do container.
+## Instruções para execução do projeto
 
-## Implementar conexão do banco de dados com o back-end
+### Docker compose
 
-> Para me ajudar a testar os repositórios e simular o `mongodb` eu usei o [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server).
+A forma mais simples e que eu recomendo para rodar toda a aplicação é com Docker compose. Eu deixei um arquivo [docker-compose.yaml](docker-compose.yaml) que sobe toda a aplicação em ambiente de desenvolvimento, o front, o back e uma instância de `mongodb`. Além disso, o script [setupTestData.js](./simple-lab-mern-test-back/setupTestData.js) é executado para cadastrar 1000 usuários de teste.
 
-Os passos dessa etapa foram:
-
-1. Mockar um mongodb pra testes do repositório.
-2. Implementar o model `user` com o `mongoose`.
-3. Implementar o repositório usando o model criado.
-
-## Garantir que o email não seja repetido
-
-Depois de implementar o repositório eu percebi que ficou faltando garantir uma regra de negócio no domínio: **o mesmo email não pode ser usado por mais de um usuário**
-
-Então eu retornei para o domínio pra criar o `UserService`. Esse serviço que fica responsável por usar o repositório para fazer as operações no banco de dados e garantir a unicidade do email.
-
-## Implementar api com express
-
-Com o domínio e a comunicação com o banco de dados implementados. Só ficou faltando criar a api e disponibilizar as rotas para finalizar o back-end.
-
-Nessa etapa eu decidi usar algumas bibliotecas a mais pra facilitar o desenvolvimento e a escrita de testes para a API.
-
-- Usei o `supertest` pra facilitar nos testes automatizados da API
-- Alterei o `docker-compose.yaml` pra rodar a api com o `nodemon`
-  - É um ambiente de desenvolvimento, então eu queria que sempre que eu salvasse alterações aos arquivos a api atualizaria automaticamente
-
-Por fim, eu implementei as rotas para cada uma das operações possíveis.
-
-```
-GET /api/users -> listar todos os usuários
-GET /api/users/:email -> recuperar usuário por email
-POST /api/users -> cadastrar novo usuário
-PUT /api/users -> atualizar usuário existente
-DELETE /api/users -> deletar usuário
+```bash
+# na pasta raiz do repositório
+docker compose up -d
+# dependendo da versão do Docker e do Docker compose o comando pode ser outro:
+docker-compose up -d
 ```
 
-## Configurar CI da API
+### Sem Docker
 
-Nesse ponto do processo, eu resolvi criar um pipeline pra rodar os testes e o build da api sempre que eu subisse um commit novo no Github.
+Pra executar a aplicação sem Docker você pode rodar `npm install` e `npm start` nas pastas do front e do back. No entanto, você precisa passar variáveis de ambiente com configurações necessárias pra execução de cada um. Você pode fazer isso criando arquivos `.env` nas pastas [simple-lab-mern-test-back](./simple-lab-mern-test-back/) e [simple-lab-mern-test-front](./simple-lab-mern-test-front/).
 
-## Criar projeto do front-end
+No arquivo `.env` do back-end, passe a variável `MONGO_CONNECTION_STRING` com a connection string para o `mongodb`, incluindo o nome da base de dados. Por exemplo: `mongodb://localhost:27017/simple-lab-mern-test`.
 
-Fiz as configurações iniciais pra iniciar o desenvolvimento do front-end.
+Já no front-end, você precisa passar a variável `REACT_APP_API_URL`, contendo a url para a API. Por exemplo: `http://localhost:8080`.
 
-- Criar projeto inicial com `create-react-app`
-- Configurar pipeline de build
-- Adicionar front ao docker compose
-- Configurar `react-bootstrap`
+## Endpoints da API
+
+### Criar usuário
+
+`POST /api/users` -> Cadastra um novo usuário.
+
+Exemplo de requisição:
+
+```
+POST http://localhost:8080/api/users
+{
+   "email": "Abdullah_Willms75@gmail.com",
+   "name": "Abdullah Williams",
+   "birthDate": "1999-07-23"
+}
+```
+
+Resposta:
+`Status 200`
+
+### Listar usuários
+
+`GET /api/users` -> Esse endpoint lista os usuários cadastrados no banco de dados. Ele também pode receber parâmetros da query da requisição para paginação (`page` e `pageSize`) e filtro (`name`, `email`, `birthDateAfter` e `birthDateBefore`).
+
+Exemplo de requisição:
+`GET http://localhost:8080/api/users?page=1&pageSize=3&name=a&email=la&birthDateAfter=2024-01-18&birthDateBefore=2024-07-19`
+
+Resposta:
+
+```json
+Status: 200
+{
+    "data": [
+        {
+            "email": "Abdullah_Willms75@gmail.com",
+            "name": "Jodi Daugherty",
+            "birthDate": "2024-07-15"
+        },
+        {
+            "email": "Ahmed.Nikolaus4@yahoo.com",
+            "name": "Sherri Balistreri III",
+            "birthDate": "2024-01-29"
+        },
+        {
+            "email": "Alanna.Wolf@hotmail.com",
+            "name": "Mr. Juan Kunde",
+            "birthDate": "2024-07-09"
+        }
+    ],
+    "page": 1,
+    "pageSize": 3,
+    "totalPages": 23,
+    "filter": {
+        "name": "a",
+        "email": "la",
+        "birthDate": {
+            "before": "2024-07-19",
+            "after": "2024-01-18"
+        }
+    }
+}
+```
+
+### Recuperar usuário por email
+
+`GET /api/users/:email` -> Encontra o usuário com o email fornecido, se existente.
+
+Exemplo de requisição:
+`GET http://localhost:8080/api/users/Abdullah_Willms75@gmail.com`
+
+Resposta:
+
+```json
+Status: 200
+{
+    "data": {
+        "email": "Abdullah_Willms75@gmail.com",
+        "name": "Jodi Daugherty",
+        "birthDate": "2024-07-15"
+    }
+}
+```
+
+### Atualizar usuário
+
+`PUT /api/users` -> Atualiza os campos do usuário fornecido no corpo da resposta, se existente.
+
+Exemplo de requisição:
+
+```
+PUT http://localhost:8080/api/users
+{
+   "email": "Abdullah_Willms75@gmail.com",
+   "name": "New Name",
+   "birthDate": "2000-07-15"
+}
+```
+
+Resposta:
+`Status 200`
+
+### Deletar usuário
+
+`DELETE /api/users/:email` -> Deleta o usuário com o email especificado.
+
+Exemplo de requisição:
+`DELETE http://localhost:8080/api/users/Abdullah_Willms75@gmail.com`
+
+Resposta:
+`Status: 200`
