@@ -1,6 +1,7 @@
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import { useToast } from "../../components/ToastManager/ToastManager";
+import { toISODateOnlyString } from "../../utils/date-utils";
 
 const toastDelay = 3000;
 const UserSignup = ({ createUser }) => {
@@ -55,6 +56,7 @@ const UserSignup = ({ createUser }) => {
           required
           name="birthDate"
           aria-label="Data de nascimento"
+          max={toISODateOnlyString(new Date())}
         ></Form.Control>
       </Form.Group>
       <Button className="mt-2" type="submit">

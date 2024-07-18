@@ -15,14 +15,17 @@ const createUser = async (user) => {
   }
 };
 
-const updateUser = (user) => {
-  return fetch(`${apiUrl}/api/users`, {
+const updateUser = async (user) => {
+  const response = await fetch(`${apiUrl}/api/users`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
   });
+  if (response.status !== 200) {
+    throw new Error("Failed to update user");
+  }
 };
 
 const getUsers = async (options) => {

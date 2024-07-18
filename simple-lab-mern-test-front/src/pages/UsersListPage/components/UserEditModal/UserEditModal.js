@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { toISODateOnlyString } from "../../../../utils/date-utils";
 
 const UserEditModal = ({
   show,
@@ -27,6 +28,7 @@ const UserEditModal = ({
     e.preventDefault();
     await updateUser({ email, ...formValues });
   };
+
   return (
     <Modal show={show} onHide={handleCloseEditForm}>
       <Modal.Header closeButton>
@@ -55,6 +57,7 @@ const UserEditModal = ({
               aria-label="Data de nascimento"
               value={formValues.birthDate}
               onChange={handleInputChange}
+              max={toISODateOnlyString(new Date())}
             ></Form.Control>
           </Form.Group>
           <Button type="submit">Salvar</Button>
