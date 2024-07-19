@@ -5,6 +5,7 @@ import config from "./config/config";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import Layout from "./components/Layout/Layout";
 import { createUser, getUsers, updateUser } from "./services/user.service";
+import Home from "./pages/Home/Home";
 
 function App() {
   const { usersPerPage } = config;
@@ -26,7 +27,7 @@ function App() {
               />
             }
           />
-          <Route path="/" element={<h1>Página inicial</h1>} />
+          <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
