@@ -72,7 +72,7 @@ Exemplo de requisição:
 
 Resposta:
 
-```json
+```
 Status: 200
 {
     "data": [
@@ -115,7 +115,7 @@ Exemplo de requisição:
 
 Resposta:
 
-```json
+```
 Status: 200
 {
     "data": {
