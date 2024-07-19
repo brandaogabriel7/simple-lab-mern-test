@@ -2,6 +2,21 @@
 
 Esse projeto é parte de um processo seletivo pra SimpleLab. O projeto consiste em uma aplicação de cadastro de usuários desenvolvido com stack MERN.
 
+## Tabela de conteúdos
+
+- [Stack](#stack)
+  - [Ferramentas e libs usadas](#ferramentas-e-libs-usadas)
+- [Instruções para execução do projeto](#instruções-para-execução-do-projeto)
+  - [Docker compose](#docker-compose)
+  - [Sem Docker](#sem-docker)
+- [Páginas do website](#páginas-do-website)
+- [Endpoints da API](#endpoints-da-api)
+  - [Criar usuário](#criar-usuário)
+  - [Listar usuários](#listar-usuários)
+  - [Recuperar usuário por email](#recuperar-usuário-por-email)
+  - [Atualizar usuário](#atualizar-usuário)
+  - [Deletar usuário](#deletar-usuário)
+
 ## Stack
 
 Como mencionado acima, esse projeto foi desenvolvido com a stack `MERN`(MongoDB, Express.js, React.js e Node.js). Além disso, eu usei Docker e Docker compose pra facilitar a execução da aplicação.
@@ -40,6 +55,14 @@ Pra executar a aplicação sem Docker você pode rodar `npm install` e `npm star
 No arquivo `.env` do back-end, passe a variável `MONGO_CONNECTION_STRING` com a connection string para o `mongodb`, incluindo o nome da base de dados. Por exemplo: `mongodb://localhost:27017/simple-lab-mern-test`.
 
 Já no front-end, você precisa passar a variável `REACT_APP_API_URL`, contendo a url para a API. Por exemplo: `http://localhost:8080`.
+
+## Páginas do website
+
+O website é composto por 3 páginas:
+
+- **Página inicial:** Breve descrição do projeto e link pras outras páginas.
+- **Lista de usuários (/users):** Permite listar, filtrar e editar os usuários cadastrados.
+- **Cadastro (/signup):** Permite cadastrar novos usuários.
 
 ## Endpoints da API
 
