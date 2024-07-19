@@ -6,8 +6,9 @@ const Home = () => (
     <Row>
       <h1 className="text-dark">SimpleLab MERN Test</h1>
       <p>
-        Esse projeto é parte do processo seletivo para a empresa SimpleLab. Você
-        pode encontrar o repositório com todo o código{" "}
+        Esse projeto é parte do processo seletivo para a empresa SimpleLab. Ele
+        consiste em uma aplicação para gerenciamento de usuários. Você pode
+        encontrar o repositório com todo o código{" "}
         <a
           href="https://github.com/brandaogabriel7/simple-lab-mern-test"
           target="_blank"
