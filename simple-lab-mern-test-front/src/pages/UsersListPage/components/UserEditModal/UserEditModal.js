@@ -60,7 +60,9 @@ const UserEditModal = ({
               max={toISODateOnlyString(new Date())}
             ></Form.Control>
           </Form.Group>
-          <Button type="submit">Salvar</Button>
+          <Button className="mt-3" type="submit">
+            Salvar
+          </Button>
         </Form>
       </Modal.Body>
     </Modal>

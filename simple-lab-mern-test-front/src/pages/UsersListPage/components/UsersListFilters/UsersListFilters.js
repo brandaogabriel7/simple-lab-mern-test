@@ -13,42 +13,50 @@ const UsersListFilters = ({ setFilter }) => {
     >
       <h4>Filtros</h4>
       <Row>
-        <Form.Group as={Col}>
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            name="email"
-            type="text"
-            aria-label="Email"
-            defaultValue=""
-          />
-        </Form.Group>
-        <Form.Group as={Col}>
-          <Form.Label>Nome</Form.Label>
-          <Form.Control
-            name="name"
-            type="text"
-            aria-label="Nome"
-            defaultValue=""
-          />
-        </Form.Group>
-        <Form.Group as={Col}>
-          <Form.Label>Nasceu depois de</Form.Label>
-          <Form.Control
-            name="birthDateAfter"
-            type="date"
-            aria-label="Nasceu depois de"
-            defaultValue=""
-          />
-        </Form.Group>
-        <Form.Group as={Col}>
-          <Form.Label>Nasceu antes de</Form.Label>
-          <Form.Control
-            name="birthDateBefore"
-            type="date"
-            aria-label="Nasceu antes de"
-            defaultValue=""
-          />
-        </Form.Group>
+        <Col md={2}>
+          <Form.Group>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              name="email"
+              type="text"
+              aria-label="Email"
+              defaultValue=""
+            />
+          </Form.Group>
+        </Col>
+        <Col md={2}>
+          <Form.Group>
+            <Form.Label>Nome</Form.Label>
+            <Form.Control
+              name="name"
+              type="text"
+              aria-label="Nome"
+              defaultValue=""
+            />
+          </Form.Group>
+        </Col>
+        <Col md={4}>
+          <Form.Group>
+            <Form.Label>Nasceu depois de</Form.Label>
+            <Form.Control
+              name="birthDateAfter"
+              type="date"
+              aria-label="Nasceu depois de"
+              defaultValue=""
+            />
+          </Form.Group>
+        </Col>
+        <Col md={4}>
+          <Form.Group>
+            <Form.Label>Nasceu antes de</Form.Label>
+            <Form.Control
+              name="birthDateBefore"
+              type="date"
+              aria-label="Nasceu antes de"
+              defaultValue=""
+            />
+          </Form.Group>
+        </Col>
       </Row>
       <Button className="mt-2" type="submit" aria-label="Filtrar">
         Filtrar
