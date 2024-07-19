@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 21.6
+      - name: Use Node.js 20.10
         uses: actions/setup-node@v3
         with:
-          node-version: 21.6
+          node-version: 20.10
           cache: "npm"
           cache-dependency-path: simple-lab-mern-test-back/package-lock.json
       - run: npm install
