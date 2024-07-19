@@ -9,9 +9,9 @@ const UsersListFilters = ({ setFilter }) => {
         const newFilter = Object.fromEntries(formData.entries());
         setFilter(newFilter);
       }}
-      className="border border-primary rounded p-3"
+      className="sticky-top bg-light border border-secondary rounded p-3"
     >
-      <h4>Filtros</h4>
+      <h4>Filtrar</h4>
       <Row>
         <Col md={2}>
           <Form.Group>

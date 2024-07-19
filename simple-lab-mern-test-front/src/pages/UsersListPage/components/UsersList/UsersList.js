@@ -2,9 +2,10 @@ import { ListGroup, Button, Stack, Container, Col, Row } from "react-bootstrap";
 
 const UsersList = ({ users, handleOpenEditUserDialog }) => {
   return (
-    <ListGroup>
+    <ListGroup as="ul">
       {users?.map((user) => (
         <ListGroup.Item
+          as="li"
           role="listitem"
           key={user.email}
           aria-label={user.email}
