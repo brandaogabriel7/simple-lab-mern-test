@@ -1,6 +1,6 @@
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useState } from "react";
-import { useToast } from "../../components/ToastManager/ToastManager";
+import { useToast } from "../../hooks/ToastManager/ToastManager";
 import { toISODateOnlyString } from "../../utils/date-utils";
 
 const toastDelay = 3000;

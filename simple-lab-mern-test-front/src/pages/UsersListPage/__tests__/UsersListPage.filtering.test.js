@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { faker } from "@faker-js/faker";
 import { toISODateOnlyString } from "../../../utils/date-utils";
 
-jest.mock("../../../components/ToastManager/ToastManager");
+jest.mock("../../../hooks/ToastManager/ToastManager");
 
 const pageSize = 5;
 

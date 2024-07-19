@@ -3,9 +3,9 @@ import UsersListPage from "../UsersListPage";
 import { faker } from "@faker-js/faker";
 import userEvent from "@testing-library/user-event";
 import { toISODateOnlyString } from "../../../utils/date-utils";
-import { useToast } from "../../../components/ToastManager/ToastManager";
+import { useToast } from "../../../hooks/ToastManager/ToastManager";
 
-jest.mock("../../../components/ToastManager/ToastManager");
+jest.mock("../../../hooks/ToastManager/ToastManager");
 
 describe("UsersList editing tests", () => {
   const usersPerPage = 5;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useToast } from "../../components/ToastManager/ToastManager";
+import { useToast } from "../../hooks/ToastManager/ToastManager";
 import UserEditModal from "./components/UserEditModal/UserEditModal";
 import UsersList from "./components/UsersList/UsersList";
 import PaginationControl from "../../components/PaginationControl/PaginationControl";
