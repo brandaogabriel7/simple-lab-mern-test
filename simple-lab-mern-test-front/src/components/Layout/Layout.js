@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
-import { ToastProvider } from "../ToastManager/ToastManager";
+import { ToastProvider } from "../../hooks/ToastManager/ToastManager";
 
 const Layout = () => (
   <>
