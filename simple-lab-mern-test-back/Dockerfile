@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm installs
+RUN npm install
 
 ENV PORT=3000
 EXPOSE ${PORT}
