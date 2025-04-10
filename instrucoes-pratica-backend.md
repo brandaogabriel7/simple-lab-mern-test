@@ -7,7 +7,7 @@ Sua Dockerfile deve:
 - Usar uma imagem base do Node.js versão 23.11
 - Instalar as dependências do projeto
 - Copiar o código fonte do projeto para dentro do container
-- Expor a porta 3000
+- Expor a porta 8080
 - Rodar o comando `npm start` para iniciar o servidor
 
 ## docker-compose.yaml
@@ -28,7 +28,7 @@ Se você precisar, pode comparar seus arquivos com a branch `main`, onde tudo es
 
 ## Testando
 
-O frontend e o banco de dados já estão corretamente configurados para subir. Você pode testar a aplicação funcionando subindo todos os serviços e acessando `http://localhost:3000` no seu navegador. Você deve ver a aplicação rodando corretamente.
+O frontend e o banco de dados já estão corretamente configurados para subir. Você pode testar a aplicação funcionando subindo todos os serviços e acessando `http://localhost:3000` no seu navegador.
 
 ## Materiais úteis
 - [Dockerfile common instructions](https://docs.docker.com/get-started/docker-concepts/building-images/writing-a-dockerfile/#common-instructions)
