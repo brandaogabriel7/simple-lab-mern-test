@@ -9,8 +9,6 @@ services:
       - db-network
 
   backend:
-    build:
-      context: ./simple-lab-mern-test-back
     container_name: backend
     environment:
       - MONGO_CONNECTION_STRING=mongodb://db:27017/simple-lab-mern-test
@@ -18,10 +16,6 @@ services:
     entrypoint: /bin/sh -c "npm run testdata && npm start"
     ports:
       - "8080:8080"
-    networks:
-      - db-network
-    depends_on:
-      - db
 
   frontend:
     build:
