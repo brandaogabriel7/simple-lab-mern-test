@@ -9,7 +9,7 @@
     "react-dom": "^18.3.1",
     "react-router-bootstrap": "^0.26.3",
     "react-router-dom": "^6.24.1",
-    "react-scripts": "5.0.1"
+    "react-scripts": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,11 +39,11 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.6",
-    "@testing-library/react": "^16.0.0",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@faker-js/faker": "^8.4.1",
     "@testing-library/cypress": "^10.0.2",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
     "cypress": "^13.13.0",
     "eslint-plugin-cypress": "^3.3.0",
